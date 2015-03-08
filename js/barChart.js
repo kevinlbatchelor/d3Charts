@@ -1,6 +1,6 @@
 var margin = {top: 20, right: 20, bottom: 20, left: 20};
 
-var w = 400- margin.left-margin.right, h = 300 -margin.top-margin.bottom;
+var w = 400 - margin.left - margin.right, h = 300 - margin.top - margin.bottom;
 
 var svg = d3.select('#chartArea').append('svg')
     .attr('width', w + margin.left + margin.right)
@@ -26,7 +26,7 @@ var colorScale = d3.scale.quantile()
     .range(['#002640', '#004C7F', '#0072BF', '#0099FF']);
 
 var pie = d3.layout.pie()
-    .value(function(d){
+    .value(function (d) {
         return d
     });
 
@@ -42,6 +42,11 @@ svg.selectAll('rect')
         return h - yScale(d);
     })
     .attr('width', xScale.rangeBand())
+    .attr("height", -1)
+    .transition()
+    .delay(function (d, i) {
+        return i * 100;
+    })
     .attr('height', yScale)
     .attr('fill', function (d, i) {
         return colorScale(i)

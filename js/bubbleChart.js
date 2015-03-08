@@ -1,5 +1,4 @@
-
-function update () {
+function update() {
     _.each(dataset, function (datum) {
         datum.x = Math.round(Math.random() * 100);
         datum.y = Math.round(Math.random() * 100);
@@ -59,7 +58,7 @@ var xAxis = d3.svg.axis()
 
 svg.append('g')
     .attr('class', 'x axis')
-    .attr('transform', 'translate(0, '+ (h + 0) + ')')
+    .attr('transform', 'translate(0, ' + (h + 0) + ')')
     .call(xAxis);
 
 var yScale = d3.scale.linear()

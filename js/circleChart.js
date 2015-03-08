@@ -32,6 +32,11 @@ svg.selectAll('rect')
     .attr('x', 0)
     .attr('y', 80)
     .attr('width', 1)
+    .attr("height", 0)
+    .transition()
+    .delay(function (d, i) {
+        return i * 10;
+    })
     .attr('height', function (d) {
         return d
     })
