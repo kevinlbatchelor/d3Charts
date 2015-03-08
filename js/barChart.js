@@ -8,7 +8,6 @@ var svg = d3.select('#chartArea').append('svg')
     .append('g')
     .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
-
 var dataset = _.map(_.range(66), function (i) {
     return Math.random() * 15;
 });
@@ -31,8 +30,6 @@ var pie = d3.layout.pie()
         return d
     });
 
-
-
 svg.selectAll('rect')
     .data(dataset)
     .enter()
@@ -48,6 +45,5 @@ svg.selectAll('rect')
     .attr('height', yScale)
     .attr('fill', function (d, i) {
         return colorScale(i)
-    })
-;
+    });
 

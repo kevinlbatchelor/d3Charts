@@ -2,52 +2,32 @@ body {
     padding-top: 50px;
     padding-left: 100px;
 }
+/*'#002640', '#004C7F', '#0072BF', '#0099FF'*/
 
-#chartArea {
-    width: 400px;
-    height: 300px;
-    background-color: #262626;
-}
-
-#bubbles {
-    width: 600px;
-    height: 600px;
-    background-color: #262626;
-}
-
-.bar {
-    display: inline-block;
-    width: 20px;
-    height: 75px; /* Gets overriden by D3-assigned height below */
-    margin-right: 2px;
-}
 body {
     padding-top: 20px;
     padding-left: 15px;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-#chartArea {
-    width: 500px;
-    height: 400px;
-    background-color: #CCC;
-}
-
 .dot {
-    fill: teal;
-    fill-opacity: 0.7;
-    stroke: black;
+    fill: #002640;
+    fill-opacity: 1;
+    stroke: #002640;
 }
 
 .active {
-    fill: magenta;
+    fill: #0099FF;
     fill-opacity: 0.5;
     stroke-width: 3px;
 }
 
 .axis path, .axis line {
     fill: none;
-    stroke: #000;
+    stroke: #ccc;
     stroke-width: 1px;
     shape-rendering: crispEdges;
+}
+text{
+    fill:#ccc;
 }

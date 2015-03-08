@@ -25,8 +25,6 @@ var colorScale = d3.scale.linear()
     .domain([0, dataset.length])
     .range(['#002640', '#0099FF']);
 
-
-
 svg.selectAll('rect')
     .data(dataset)
     .enter()
