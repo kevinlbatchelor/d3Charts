@@ -1,14 +1,14 @@
 var myApp = angular.module("myApp", []);
 
 myApp.controller("ctrl", function($scope) {
-    $scope.test = 'test';
+    $scope.test = 'itworks';
 });
 
 myApp.directive('oneT', function() {
     return {
         restrict: 'E',
         scope: {
-            item:'@'
+            item:'='
         },
         template: "<two-t tree='item'></two-t>{{item}}",
 
@@ -22,7 +22,7 @@ myApp.directive('twoT', function() {
     return {
         restrict: 'E',
         scope: {
-            tree:'@'
+            tree:'='
         },
         template: "<div>thesedays</div>{{tree}}",
 

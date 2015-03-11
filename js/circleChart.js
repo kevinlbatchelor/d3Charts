@@ -1,4 +1,4 @@
-var items = 360
+var items = 360;
 
 var margin = {top: 0, right: 0, bottom: 0, left: 0};
 
@@ -45,6 +45,5 @@ svg.selectAll('rect')
     })
     .attr('transform', function (d, i) {
         return 'rotate(' + i + ')'
-    })
-;
+    });
 

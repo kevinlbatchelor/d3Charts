@@ -14,8 +14,13 @@
 
 <body>
 <div ng-app="myApp">
-<div ng-controller="ctrl">{{test}}</div>
-    <one-t item='monkey'></one-t>
+<div ng-controller="ctrl">{{test}}
+    below test is passed in as an item on scope.test on the contoller
+    <one-t item="test"></one-t>
+</div>
+    //below test is being passed in as a string
+    <one-t item="'test'"></one-t>
+
 </div>
 
 <!--<div id="chartArea"></div>-->
