@@ -2,6 +2,7 @@ body {
     padding-top: 50px;
     padding-left: 100px;
 }
+
 /*'#002640', '#004C7F', '#0072BF', '#0099FF'*/
 
 body {
@@ -28,6 +29,63 @@ body {
     stroke-width: 1px;
     shape-rendering: crispEdges;
 }
-text{
-    fill:#ccc;
+
+text {
+    fill: #ccc;
+}
+
+.well.one{
+    min-height: 200px;
+    width: 400px;
+    position: relative;
+}
+.well.two{
+    min-height: 200px;
+    width: 400px;
+    position: relative;
+}
+
+.toggle-class {
+    position: absolute;
+    -webkit-transition: linear 1s;
+    -moz-transition: linear 1s;
+    transition: linear 1s;
+    width: 300px;
+
+}
+
+.toggle-class.ng-enter{
+    opacity: 0;
+} 
+
+.toggle-class.ng-enter-active{
+    opacity: 1;
+
+}
+
+.toggle-class.ng-leave{
+    opacity: 2;
+    margin-top: 0;
+
+}
+
+.toggle-class.ng-leave-active{
+    opacity: 0;
+
+}
+
+.toggle-hide{
+    position: absolute;
+    opacity: 1;
+    -webkit-transition: linear 1s;
+    -moz-transition: linear 1s;
+    transition: linear 1s;
+    width: 300px;
+    margin-top: 40px;
+
+}
+
+.toggle-hide.ng-hide{
+    opacity: 0;
+    margin-top: 40px;
 }

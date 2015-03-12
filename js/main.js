@@ -1,7 +1,8 @@
-var myApp = angular.module("myApp", []);
+var myApp = angular.module("myApp", ['ngAnimate']);
 
 myApp.controller("ctrl", function($scope) {
-    $scope.test = 'itworks';
+    $scope.scopeValue = 'Initial scope value from ctrl';
+    $scope.change=true;
 });
 
 myApp.directive('oneT', function() {
@@ -10,7 +11,7 @@ myApp.directive('oneT', function() {
         scope: {
             item:'='
         },
-        template: "<two-t tree='item'></two-t>{{item}}",
+        template: "<two-t tree='item'></two-t>",
 
         link: function (scope, element, attrs){
             console.log(scope.item)
@@ -24,7 +25,7 @@ myApp.directive('twoT', function() {
         scope: {
             tree:'='
         },
-        template: "<div>thesedays</div>{{tree}}",
+        template: "<div>Content from second directives template</div>{{tree}}",
 
         link: function (scope, element, attrs, oneCtrl){
             console.log(scope.tree)
