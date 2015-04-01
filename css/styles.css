@@ -32,12 +32,13 @@ text {
     fill: #ccc;
 }
 
-.well.one{
+.well.one {
     min-height: 200px;
     width: 400px;
     position: relative;
 }
-.well.two{
+
+.well.two {
     min-height: 200px;
     width: 400px;
     position: relative;
@@ -51,24 +52,24 @@ text {
     width: 300px;
 }
 
-.toggle-class.ng-enter{
+.toggle-class.ng-enter {
     opacity: 0;
-} 
+}
 
-.toggle-class.ng-enter-active{
+.toggle-class.ng-enter-active {
     opacity: 1;
 }
 
-.toggle-class.ng-leave{
+.toggle-class.ng-leave {
     opacity: 2;
     margin-top: 0;
 }
 
-.toggle-class.ng-leave-active{
+.toggle-class.ng-leave-active {
     opacity: 0;
 }
 
-.toggle-hide{
+.toggle-hide {
     position: absolute;
     opacity: 1;
     -webkit-transition: linear 1s;
@@ -78,7 +79,21 @@ text {
     margin-top: 40px;
 }
 
-.toggle-hide.ng-hide{
+.toggle-hide.ng-hide {
     opacity: 0;
     margin-top: 40px;
 }
+
+is-gauge-chart {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+svg .arc path {
+    stroke: #fff;
+}
+text {
+    fill: #fff;
+}
+

@@ -29,18 +29,20 @@
                 <one-t item="scopeValue"></one-t>
                 <!--//below test is being passed in as a string-->
             </div>
+            <div is-spider-chart data="data" config="config" keys="keys" object="people"></div>
         </div>
         <div class="well two">
             <one-t item="'Value passed in from Directive One'"></one-t>
         </div>
 
         <!--understanding d3-->
-        <div id="chartArea"></div>
-        <button onclick="update()">Update</button>
-        <div id="bubbles"></div>
-        <div id="pie"></div>
-        <div id="pieTwo"></div>
-        <div id="cirBar"></div>
+        <!--<div id="chartArea"></div>-->
+        <!--<button onclick="update()">Update</button>-->
+        <!--<div id="bubbles"></div>-->
+        <!--<div id="pie"></div>-->
+        <!--<div id="pieTwo"></div>-->
+        <!--<div id="cirBar"></div>-->
+
 
     </div>
 </div>
@@ -57,5 +59,9 @@
 <script src="js/pieChart.js"></script>
 <script src="js/pieChartTwo.js"></script>
 
+
+<script src="js/isSpiderChart.js"></script>
+<script src="js/isGaugeChart.js"></script>
+<!--<script type="text/javascript" src="js/script.js"></script>-->
 </body>
 </html>
