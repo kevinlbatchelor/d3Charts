@@ -29,7 +29,9 @@
                 <one-t item="scopeValue"></one-t>
                 <!--//below test is being passed in as a string-->
             </div>
-            <div is-spider-chart data="data" config="config" keys="keys" object="people"></div>
+            <input ng-model="people[0].Emails">
+            <button ng-click="add()"></button>
+            <div is-spider-chart data="people" config="config" keys="keys" ></div>
         </div>
         <div class="well two">
             <one-t item="'Value passed in from Directive One'"></one-t>
