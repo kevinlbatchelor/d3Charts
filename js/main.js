@@ -29,9 +29,9 @@ myApp.controller("ctrl", function($scope) {
     $scope.config = {
         w: 500,
         h: 500,
-        maxValue: 1,
-        levels: 6,
-        ExtraWidthX: 300
+        levels: 4,
+        ExtraWidthX: 300,
+        showScale:false
     };
 
 
