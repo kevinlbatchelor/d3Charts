@@ -97,11 +97,10 @@
                         setUpData();
                         var tooltip;
                         for (var j = 0; j < cfg.levels - 1; j++) {
-
                             var levelFactor = cfg.factor * radius * ((j + 1) / cfg.levels);
                             console.log(levelFactor);
                             g.selectAll(".levels")
-                                .data(allAxis)
+                                .data([1])
                                 .enter()
                                 .append("circle")
                                 .attr("cx",cfg.h/2)
@@ -191,49 +190,43 @@
                         /*create the colored polygons that chart area*/
                         var series = 0;
                         var dataValues = [];
-                        d.forEach(function (d, i) {
 
+                        d.forEach(function(d, i){
+                            dataValues = [];
                             g.selectAll(".nodes")
-                                .data(d, function (j, i) {
+                                .data(d, function(j, i){
                                     dataValues.push([
-                                            cfg.w / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * cfg.factor * Math.sin(i * cfg.radians / total)),
-                                            cfg.h / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * cfg.factor * Math.cos(i * cfg.radians / total))
+                                            cfg.w/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total)),
+                                            cfg.h/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total))
                                     ]);
                                 });
-
                             dataValues.push(dataValues[0]);
-
-                            g.selectAll(".area").remove();
                             g.selectAll(".area")
                                 .data([dataValues])
                                 .enter()
                                 .append("path")
-                                .attr("class", "area" + series)
-//                                    .attr("class", "radar-chart-series" + series)
-                                .style("stroke-width", "1px")
-                                .style("stroke", '#ccc')
-                                .attr("d", function (d) {
-                                    var str = "";
-                                    for (var pti = 0; pti < d.length; pti++) {
+                                .attr("class", "radar-chart-serie"+series)
+                                .style("stroke-width", "2px")
+                                .style("stroke", cfg.color(series))
+                                .attr("d",function(d) {
+                                    var str="";
+                                    for(var pti=0;pti<d.length;pti++){
                                         str = str + "250,250 ";
                                     }
                                     return "M" + str;
                                 })
-                                .style("fill","none")
-                                .style("fill-opacity", 0.3)
-                                .on('mouseover', function (d) {
-                                    z = "path." + d3.select(this).attr("class");
+                                .style("fill", function(j, i){return cfg.color(series)})
+                                .style("fill-opacity", cfg.opacityArea)
+                                .on('mouseover', function (d){
+                                    z = "path."+d3.select(this).attr("class");
                                     g.selectAll("path")
                                         .transition(200)
                                         .style("fill-opacity", 0.1);
                                     g.selectAll(z)
                                         .transition(200)
-                                        .style("fill-opacity", 0.7)
-                                        .style("fill", function (j, i) {
-                                            return cfg.color(series);
-                                        });
+                                        .style("fill-opacity", .7);
                                 })
-                                .on('mouseout', function () {
+                                .on('mouseout', function(){
                                     g.selectAll("path")
                                         .transition(200)
                                         .style("fill-opacity", cfg.opacityArea);
@@ -249,10 +242,10 @@
                                     }
                                     return "M" + str;
 
-                                })
-                            ;
+                                });
                             series++;
                         });
+
                         series = 0;
 
                         /*the dots that at the edges of the polygon*/

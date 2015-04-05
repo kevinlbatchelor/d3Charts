@@ -12,30 +12,32 @@
     <div class="container-fluid">
 
         <!--understanding ngAnimate-->
-        <div class="well one">
-            <button class="btn" ng-click="change=!change">animate</button>
-            <div ng-if="change" class="toggle-class">
-                <div class="alert alert-success" role="alert">Animation ng if.</div>
-            </div>
-            <div ng-hide="change" class="toggle-hide">
-                <div class="alert alert-success" role="alert">Animation ng hide.</div>
-            </div>
-        </div>
+        <!--<div class="well one">-->
+            <!--<button class="btn" ng-click="change=!change">animate</button>-->
+            <!--<div ng-if="change" class="toggle-class">-->
+                <!--<div class="alert alert-success" role="alert">Animation ng if.</div>-->
+            <!--</div>-->
+            <!--<div ng-hide="change" class="toggle-hide">-->
+                <!--<div class="alert alert-success" role="alert">Animation ng hide.</div>-->
+            <!--</div>-->
+        <!--</div>-->
 
         <!--understanding the = on a directive-->
         <div ng-controller="ctrl">
-            <div class="well two">
-                <!--below test is passed in as an item on scope.test on the controller-->
-                <one-t item="scopeValue"></one-t>
-                <!--//below test is being passed in as a string-->
-            </div>
+            <!--<div class="well two">-->
+                <!--&lt;!&ndash;below test is passed in as an item on scope.test on the controller&ndash;&gt;-->
+                <!--<one-t item="scopeValue"></one-t>-->
+                <!--&lt;!&ndash;//below test is being passed in as a string&ndash;&gt;-->
+            <!--</div>-->
             <input ng-model="people[0].Emails">
-            <button ng-click="add()"></button>
+            <button ng-click="add()">try</button>
             <div is-spider-chart data="people" config="config" keys="keys" ></div>
+            <!--<div class="well"><is-gauge-chart value="'5'" total="'10'"></is-gauge-chart></div>-->
+
         </div>
-        <div class="well two">
-            <one-t item="'Value passed in from Directive One'"></one-t>
-        </div>
+        <!--<div class="well two">-->
+            <!--<one-t item="'Value passed in from Directive One'"></one-t>-->
+        <!--</div>-->
 
         <!--understanding d3-->
         <!--<div id="chartArea"></div>-->

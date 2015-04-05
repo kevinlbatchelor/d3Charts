@@ -10,6 +10,7 @@ myApp.directive('isGaugeChart',['$parse','$window','$filter','$timeout', functio
 
                 link: function (scope, elem) {
                     $timeout(function () {
+                        console.log(scope.value)
                         /*timeout is added to allow the css sizes to load before the javascript gets the elements sizes*/
                         var end;
                         /*How far the ring will progress around the circle*/
@@ -149,6 +150,7 @@ myApp.directive('isGaugeChart',['$parse','$window','$filter','$timeout', functio
 
                         scope.$watch('value', function () {
                             draw();
+                            console.log(123)
                         });
                     });
                 }

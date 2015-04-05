@@ -4,14 +4,18 @@ myApp.controller("ctrl", function($scope) {
     $scope.scopeValue = 'Initial scope value from ctrl';
     $scope.change=true;
 
+    $scope.n = function(){
+        return Math.floor((Math.random() * 99) + 1);
+    };
+
     $scope.people = [
-        {"name": "jum", "Emails": 50, "Social Networks":56, "Internet Banking":42,"News Sportsites":34, "Search Engine":48, "View Shopping sites": 14},
-        {"name": "dim","Emails": 50, "Social Networks":51, "Internet Banking":48,"News Sportsites":24, "Search Engine":38, "View Shopping sites": 20}
+        {"name": "jum", "Emails": $scope.n(), "Social Networks":$scope.n(), "Internet Banking":$scope.n(),"News Sportsites":$scope.n(), "Search Engine":$scope.n(), "View Shopping sites": $scope.n()},
+        {"name": "jum", "Emails": $scope.n(), "Social Networks":$scope.n(), "Internet Banking":$scope.n(),"News Sportsites":$scope.n(), "Search Engine":$scope.n(), "View Shopping sites": $scope.n()}
     ];
 
     $scope.add = function(){
 
-        $scope.people.push({"name": "ham","Emails": 90, "Social Networks":70, "Internet Banking":50,"News Sportsites":66, "Search Engine":38, "View Shopping sites": 20});
+        $scope.people.push({"name": "jum", "Emails": $scope.n(), "Social Networks":$scope.n(), "Internet Banking":$scope.n(),"News Sportsites":$scope.n(), "Search Engine":$scope.n(), "View Shopping sites": $scope.n()});
         console.log($scope.people);
     };
 
@@ -21,9 +25,7 @@ myApp.controller("ctrl", function($scope) {
         {label:"Hammer", key:"Emails", max:"100"},
         {label:"View Shopping sites", key:"View Shopping sites", max:"100"},
         {label:"Internet Banking", key:"Internet Banking", max:"100"},
-        {label:"Social Networks", key:"Social Networks", max:"100"},
-        {label:"Listing Radio", key:"Listing Radio", max:"100"},
-        {label:"Reading", key:"Reading", max:"100"},
+        {label:"Social Networks", key:"Social Networks", max:"100"}
     ];
 
     $scope.config = {
