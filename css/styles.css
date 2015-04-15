@@ -1,104 +1,128 @@
-body {
-    padding-top: 50px;
-    padding-left: 100px;
+/*body {*/
+    /*padding-top: 50px;*/
+    /*padding-left: 100px;*/
+/*}*/
+
+/*body {*/
+    /*padding-top: 20px;*/
+    /*padding-left: 15px;*/
+    /*font-family: Arial, Helvetica, sans-serif;*/
+/*}*/
+
+/*.dot {*/
+    /*fill: #002640;*/
+    /*fill-opacity: 1;*/
+    /*stroke: #002640;*/
+/*}*/
+
+/*.active {*/
+    /*fill: #0099FF;*/
+    /*fill-opacity: 0.5;*/
+    /*stroke-width: 3px;*/
+/*}*/
+
+/*.axis path, .axis line {*/
+    /*fill: none;*/
+    /*stroke: #ccc;*/
+    /*stroke-width: 1px;*/
+    /*shape-rendering: crispEdges;*/
+/*}*/
+
+/*text {*/
+    /*fill: #ccc;*/
+/*}*/
+
+/*.well.one {*/
+    /*min-height: 200px;*/
+    /*width: 400px;*/
+    /*position: relative;*/
+/*}*/
+
+/*.well.two {*/
+    /*min-height: 200px;*/
+    /*width: 400px;*/
+    /*position: relative;*/
+/*}*/
+
+/*.toggle-class {*/
+    /*position: absolute;*/
+    /*-webkit-transition: linear 1s;*/
+    /*-moz-transition: linear 1s;*/
+    /*transition: linear 1s;*/
+    /*width: 300px;*/
+/*}*/
+
+/*.toggle-class.ng-enter {*/
+    /*opacity: 0;*/
+/*}*/
+
+/*.toggle-class.ng-enter-active {*/
+    /*opacity: 1;*/
+/*}*/
+
+/*.toggle-class.ng-leave {*/
+    /*opacity: 2;*/
+    /*margin-top: 0;*/
+/*}*/
+
+/*.toggle-class.ng-leave-active {*/
+    /*opacity: 0;*/
+/*}*/
+
+/*.toggle-hide {*/
+    /*position: absolute;*/
+    /*opacity: 1;*/
+    /*-webkit-transition: linear 1s;*/
+    /*-moz-transition: linear 1s;*/
+    /*transition: linear 1s;*/
+    /*width: 300px;*/
+    /*margin-top: 40px;*/
+/*}*/
+
+/*.toggle-hide.ng-hide {*/
+    /*opacity: 0;*/
+    /*margin-top: 40px;*/
+/*}*/
+
+/*is-gauge-chart {*/
+    /*display: block;*/
+    /*height: 100%;*/
+    /*width: 100%;*/
+/*}*/
+
+/*svg .arc path {*/
+    /*stroke: #fff;*/
+/*}*/
+/*text {*/
+    /*fill: #fff;*/
+/*}*/
+
+/*svg text{*/
+    /*fill: #000;*/
+/*}*/
+.box {
+    height: 380px;
+    width: 800px;
 }
 
-body {
-    padding-top: 20px;
-    padding-left: 15px;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.dot {
-    fill: #002640;
-    fill-opacity: 1;
-    stroke: #002640;
-}
-
-.active {
-    fill: #0099FF;
-    fill-opacity: 0.5;
-    stroke-width: 3px;
-}
-
-.axis path, .axis line {
-    fill: none;
-    stroke: #ccc;
-    stroke-width: 1px;
-    shape-rendering: crispEdges;
-}
-
-text {
-    fill: #ccc;
-}
-
-.well.one {
-    min-height: 200px;
-    width: 400px;
-    position: relative;
-}
-
-.well.two {
-    min-height: 200px;
-    width: 400px;
-    position: relative;
-}
-
-.toggle-class {
-    position: absolute;
-    -webkit-transition: linear 1s;
-    -moz-transition: linear 1s;
-    transition: linear 1s;
-    width: 300px;
-}
-
-.toggle-class.ng-enter {
-    opacity: 0;
-}
-
-.toggle-class.ng-enter-active {
-    opacity: 1;
-}
-
-.toggle-class.ng-leave {
-    opacity: 2;
-    margin-top: 0;
-}
-
-.toggle-class.ng-leave-active {
-    opacity: 0;
-}
-
-.toggle-hide {
-    position: absolute;
-    opacity: 1;
-    -webkit-transition: linear 1s;
-    -moz-transition: linear 1s;
-    transition: linear 1s;
-    width: 300px;
-    margin-top: 40px;
-}
-
-.toggle-hide.ng-hide {
-    opacity: 0;
-    margin-top: 40px;
-}
-
-is-gauge-chart {
+is-spider-chart {
     display: block;
     height: 100%;
     width: 100%;
 }
-
-svg .arc path {
-    stroke: #fff;
+is-spider-chart text {
+    text-transform: uppercase;
 }
-text {
-    fill: #fff;
+is-spider-chart .radarChartSeries0 {
+    fill: none !important;
+    stroke-width: 2px !important;
+    stroke: #ccc !important;
 }
-
-svg text{
-    fill: #000;
+is-spider-chart .dotSeries0 {
+    fill: #ccc !important;
+}
+is-spider-chart .callOutSeries0 {
+    fill: #ccc !important;
 }
 
 

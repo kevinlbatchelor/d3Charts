@@ -150,7 +150,6 @@ myApp.directive('isGaugeChart',['$parse','$window','$filter','$timeout', functio
 
                         scope.$watch('value', function () {
                             draw();
-                            console.log(123)
                         });
                     });
                 }

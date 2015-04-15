@@ -31,7 +31,9 @@
             <!--</div>-->
             <input ng-model="people[0].Emails">
             <button ng-click="add()">try</button>
-            <div is-spider-chart data="people" config="config" keys="keys" ></div>
+            <div class="box">
+            <is-spider-chart data="people" config="config" keys="keys" ></is-spider-chart>
+            </div>
             <!--<div class="well"><is-gauge-chart value="'5'" total="'10'"></is-gauge-chart></div>-->
 
         </div>

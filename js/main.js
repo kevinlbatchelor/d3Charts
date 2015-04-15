@@ -20,12 +20,12 @@ myApp.controller("ctrl", function($scope) {
     };
 
     $scope.keys = [
-        {label:"News Sportsites", key:"News Sportsites", max:"100"},
-        {label:"Search Engine", key:"Search Engine", max:"100"},
-        {label:"Hammer", key:"Emails", max:"100"},
-        {label:"View Shopping sites", key:"View Shopping sites", max:"100"},
-        {label:"Internet Banking", key:"Internet Banking", max:"100"},
-        {label:"Social Networks", key:"Social Networks", max:"100"}
+        {label:"News Sportsites", key:"News Sportsites", total:"100"},
+        {label:"Search Engine", key:"Search Engine", total:"100"},
+        {label:"Hammer", key:"Emails", total:"100"},
+        {label:"View Shopping sites", key:"View Shopping sites", total:"100"},
+        {label:"Internet Banking", key:"Internet Banking", total:"100"},
+        {label:"Social Networks", key:"Social Networks", total:"100"}
     ];
 
     $scope.config = {
@@ -33,7 +33,7 @@ myApp.controller("ctrl", function($scope) {
         h: 500,
         levels: 4,
         ExtraWidthX: 300,
-        showScale:false
+        showScale:true
     };
 
 
