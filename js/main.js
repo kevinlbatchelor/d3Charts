@@ -9,7 +9,7 @@ myApp.controller("ctrl", function($scope) {
     };
 
     $scope.people = [
-        {"name": "jum", "Emails": $scope.n(), "Social Networks":$scope.n(), "Internet Banking":$scope.n(),"News Sportsites":$scope.n(), "Search Engine":$scope.n(), "View Shopping sites": $scope.n()},
+        {"name": "jum", "Emails": $scope.n(), "Social Networks":100, "Internet Banking":$scope.n(),"News Sportsites":100, "Search Engine":$scope.n(), "View Shopping sites": $scope.n()},
         {"name": "jum", "Emails": $scope.n(), "Social Networks":$scope.n(), "Internet Banking":$scope.n(),"News Sportsites":$scope.n(), "Search Engine":$scope.n(), "View Shopping sites": $scope.n()}
     ];
 

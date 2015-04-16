@@ -179,7 +179,7 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                             return d;
                         })
                         .attr("fill", cfg.colorThree)
-                        .attr("text-anchor", "middle")
+                        .attr("text-anchor", "left")
                         .attr("dy", "1.5em")
                         .attr("transform", function () {
                             return "translate(0, 0)";
@@ -263,9 +263,9 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                     };
 
                     /*the dots that at the edges of the polygon*/
-                    d.forEach(function (y, x) {
+                    d.forEach(function (forD, forI) {
                         var corners = g.selectAll(".nodes")
-                            .data(y).enter();
+                            .data(forD).enter();
 
                         var textWidth = [];
 
@@ -291,46 +291,45 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                                 var paddingR = 10;
                                 var widthOfBox = textWidth[onI].width + paddingR;
 
-                                var placement = function (placeD, PlaceI) {
+                                var placement = function (placeD, placeI) {
                                     var bubbleRight = " 0,50 12,-10 " + widthOfBox + ",0 0,-40 z";
                                     var bubbleLeft = " 0,50 -12,-10 -" + widthOfBox + ",0 0,-40 z";
-                                    var bubbleDownRight = " 0,50, 50,0 0,-40, -" + widthOfBox + ",0 z";
+                                    var bubbleDownRight = " 0,50, " + (widthOfBox + paddingR)+ ",0 0,-40, -38,0 z";
                                     var bubbleDownLeft = " 0,50, -50,0 0,-40, " + widthOfBox + ",0 z";
                                     var bubVal = bubbleRight;
                                     var modY = -55;
-                                    var mOne = sinVal(placeD, PlaceI);
-                                    var mTwo = cosVal(placeD, PlaceI);
+                                    var x = sinVal(placeD, placeI);
+                                    var y = cosVal(placeD, placeI);
 
                                     var paddingL = 0;
                                     var paddingT = 10;
 
-                                    if (mOne > cfg.w - widthOfBox) {
+                                    if (x > cfg.w - widthOfBox) {
                                         paddingL = -widthOfBox - paddingR;
                                         bubVal = bubbleLeft;
-                                    } else if (mTwo < 50) {
+                                    } else if (y < 50) {
                                         modY = 5;
                                         paddingT = 18;
-                                        paddingL = 5;
                                         bubVal = bubbleDownRight;
-                                    } else if ((mTwo < 50) && (mOne > 320)) {
+                                    } else if ((y < 50) && (x > cfg.w - widthOfBox)) {
                                         modY = 5;
                                         bubVal = bubbleDownLeft;
                                     }
 
                                     return  {
-                                        m: "m" + mOne + "," + (mTwo + modY ) + bubVal,
-                                        x: mOne + 10 + paddingL,
-                                        y: mTwo + modY + fontHeight + paddingT
+                                        m: "m" + x + "," + (y + modY ) + bubVal,
+                                        x: x + 10 + paddingL,
+                                        y: y + modY + fontHeight + paddingT
                                     };
                                 };
 
-                                g.selectAll(".callText" + onI + x)
+                                g.selectAll(".callText" + onI + forI)
                                     .attr('x', placement(onD, onI).x)
                                     .attr('y', placement(onD, onI).y)
                                     .transition(200)
                                     .style("display", 'block');
 
-                                g.selectAll(".callOut" + onI + x)
+                                g.selectAll(".callOut" + onI + forI)
                                     .attr("d", function () {
                                         return placement(onD, onI).m;
                                     })
@@ -339,11 +338,11 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                             })
                             .on('mouseout', function (d, i) {
 
-                                g.selectAll(".callText" + i + x)
+                                g.selectAll(".callText" + i + forI)
                                     .transition(200)
                                     .style("display", 'none');
 
-                                g.selectAll(".callOut" + i + x)
+                                g.selectAll(".callOut" + i + forI)
                                     .transition(200)
                                     .style("display", 'none');
                             });
@@ -352,16 +351,16 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                         corners.append('g')
                             .append('path')
                             .attr('class', function (d, i) {
-                                return "callOut" + i + x + " " + "callOutSeries" + x;
+                                return "callOut" + i + forI + " " + "callOutSeries" + forI;
                             })
-                            .style('display', 'none')
+//                            .style('display', 'none')
                             .style("fill", cfg.colorTwo)
                         ;
                         /*the text in the bubbles*/
                         corners.append('text')
                             .text('i')
                             .attr('class', function (d, i) {
-                                return "callText" + i + x + " " + "callTextSeries" + x;
+                                return "callText" + i + forI + " " + "callTextSeries" + forI;
                             })
                             .text(function (a, b) {
                                 return a.originalValue;
