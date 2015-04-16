@@ -1,6 +1,6 @@
 myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
     return{
-        restrict: 'EA',
+        restrict: 'E',
         scope: {
             config: '=?',
             keys: '=?',
@@ -12,13 +12,11 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
 
                 var d3 = $window.d3;
 
-                var cfg = {
+                scope.cfg = {
                     showScale: true,
                     dotRadius: 5,
                     w: 300,
                     h: 300,
-                    factor: 1,
-                    factorLegend: 1,
                     levels: 3,
                     maxValue: 0,
                     radians: 2 * Math.PI,
@@ -31,7 +29,7 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                 if ('undefined' !== typeof scope.config) {
                     for (var i in scope.config) {
                         if ('undefined' !== typeof scope.config[i]) {
-                            cfg[i] = scope.config[i];
+                            scope.cfg[i] = scope.config[i];
                         }
                     }
                 }
@@ -41,9 +39,8 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                 var radius;
                 var format;
                 var allAxis;
-                var levelFactor2;
                 var fontHeight = 16;
-
+                var crazyAdjuster = 50;
 
                 /*check the objects to insure they are in the key list, then normalize there values*/
                 var setUpData = function () {
@@ -66,7 +63,7 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                     });
 
                     /*returns largest value*/
-                    cfg.maxValue = Math.max(cfg.maxValue, d3.max(d, function (i) {
+                    scope.cfg.maxValue = Math.max(scope.cfg.maxValue, d3.max(d, function (i) {
                         return d3.max(i.map(function (o) {
                             return o.value;
                         }));
@@ -78,64 +75,67 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                     }));
 
                     total = allAxis.length;
-                    radius = cfg.factor * Math.min(cfg.w / 2, cfg.h / 2);
+                    radius = Math.min(scope.cfg.w / 2, scope.cfg.h / 2);
                     format = d3.format('%');
                     d3.select(".isSpiderChart").select("svg").remove();
                 };
 
                 /*keep things square*/
-                var size = Math.min(elem[0].offsetWidth, elem[0].offsetHeight) - (cfg.dotRadius * 2);
-                cfg.w = size;
-                cfg.h = size;
+                var size = Math.min(elem[0].offsetWidth, elem[0].offsetHeight) - ((scope.cfg.dotRadius * 2) + (crazyAdjuster));
+                scope.cfg.w = size;
+                scope.cfg.h = size;
 
-                /*TODO need to fix if there is no height*/
+                var svgW = elem[0].offsetWidth;
+                var svgH = elem[0].offsetHeight;
+
+                /*TODO need to fix if there is no box height*/
 
                 /*setup the basic svg*/
-                var g = d3.select(elem[0])
+                var svg = d3.select(elem[0])
                     .append("svg")
                     .attr('class', 'isSpiderChart')
-                    .attr("width", elem[0].offsetWidth)
-                    .attr("height", elem[0].offsetHeight)
-                    .append("g")
-                    .attr('transform', 'translate(83,10)');
+                    .attr("width", svgW)
+                    .attr("height", svgH);
+                var g = svg.append("g")
+                    .attr('transform', 'translate(' + (svgW - size) / 2 + ',' + ((svgH) - (size)) / 2 + ')');
 
                 var draw = function () {
                     setUpData();
-                    var tooltip;
 
                     /*the circles*/
-                    for (var j = 0; j < cfg.levels - 1; j++) {
-                        var levelFactor = cfg.factor * radius * ((j + 1) / cfg.levels);
+                    for (var j = 0; j < scope.cfg.levels - 1; j++) {
+                        var levelFactor = radius * ((j + 1) / scope.cfg.levels);
                         g.selectAll(".levels")
                             .data([1])
                             .enter()
                             .append("circle")
-                            .attr("cx", cfg.w / 2)
-                            .attr("cy", cfg.h / 2)
+                            .attr("cx", scope.cfg.w / 2)
+                            .attr("cy", scope.cfg.h / 2)
                             .attr("r", levelFactor)
                             .style("fill", "none")
                             .style("stroke", "#ccc")
                             .style("stroke-width", "3")
                             .style("stroke-linecap", "round")
-                            .style("stroke-dasharray", ".1,17");
+                            .style("stroke-dasharray", ".1,17")
+                        ;
                     }
 
-                    /*Text indicating at what % each level is*/
+                    /*text indicating at what % each level is*/
                     var showScaleText = function () {
-
+                        var levelFactor;
                         var xPoint = function () {
                             return  function (d) {
-                                return levelFactor2 * (1 - cfg.factor * Math.sin(0));
+                                return levelFactor * (1 - Math.sin(0));
                             };
                         };
 
                         var yPoint = function () {
                             return function (d) {
-                                return levelFactor2 * (1 - cfg.factor * Math.cos(0));
+                                return levelFactor * (1 - Math.cos(0));
                             };
                         };
-                        for (var m = 0; m < cfg.levels; m++) {
-                            levelFactor2 = cfg.factor * radius * ((m + 1) / cfg.levels);
+                        for (var m = 0; m < scope.cfg.levels; m++) {
+                            levelFactor = radius * ((m + 1) / scope.cfg.levels);
                             g.selectAll(".levels")
                                 .data([1]) //dummy data
                                 .enter()
@@ -144,12 +144,14 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                                 .attr("y", yPoint())
                                 .attr("class", "legend")
                                 .style("font-size", "10px")
-                                .attr("transform", "translate(" + (cfg.w / 2 - levelFactor2 ) + ", " + (cfg.h / 2 - levelFactor2) + ")")
-                                .attr("fill", cfg.colorTwo)
-                                .text(format((m + 1) * cfg.maxValue / cfg.levels));
+                                .attr("transform", "translate(" + (scope.cfg.w / 2 - levelFactor ) + ", " + ((scope.cfg.h ) / 2 - levelFactor) + ")")
+                                .attr("fill", scope.cfg.colorTwo)
+                                .text(format((m + 1) * scope.cfg.maxValue / scope.cfg.levels));
                         }
                     };
-                    if (cfg.showScale) {
+
+                    /*only show scale if user turns in on*/
+                    if (scope.cfg.showScale) {
                         showScaleText();
                     }
 
@@ -161,36 +163,63 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                         .attr("class", "axis");
 
                     axis.append("line")
-                        .attr("x1", cfg.w / 2)
-                        .attr("y1", cfg.h / 2)
+                        .attr("x1", scope.cfg.w / 2)
+                        .attr("y1", scope.cfg.h / 2)
                         .attr("x2", function (d, i) {
-                            return cfg.w / 2 * (1 - cfg.factor * Math.sin(i * cfg.radians / total));
+                            return scope.cfg.w / 2 * (1 - Math.sin(i * scope.cfg.radians / total));
                         })
                         .attr("y2", function (d, i) {
-                            return cfg.h / 2 * (1 - cfg.factor * Math.cos(i * cfg.radians / total));
+                            return scope.cfg.h / 2 * (1 - Math.cos(i * scope.cfg.radians / total));
                         })
+                        .attr("transform", "translate(0," + 0 + ")")
                         .attr("class", "line")
                         .style("stroke", "#CCC")
                         .style("stroke-width", "1");
 
-                    axis.append("text")
+                    /*create the labels at for the series*/
+                    var labelX = function (d, i) {
+                        return (scope.cfg.w) / 2 * (1 - Math.sin(i * scope.cfg.radians / total)) - Math.sin(i * scope.cfg.radians / total);
+                    };
+
+                    var labelY = function (d, i) {
+                        return (scope.cfg.h) / 2 * (1 - Math.cos(i * scope.cfg.radians / total)) - Math.cos(i * -scope.cfg.radians / total);
+                    };
+
+                    svg.append("g")
+                        .selectAll(".legend")
+                        .data(allAxis)
+                        .enter()
+                        .append("text")
                         .attr("class", "legend")
                         .text(function (d) {
                             return d;
                         })
-                        .attr("fill", cfg.colorThree)
-                        .attr("text-anchor", "left")
-                        .attr("dy", "1.5em")
-                        .attr("transform", function () {
-                            return "translate(0, 0)";
+                        .attr("fill", scope.cfg.colorThree)
+                        .attr("text-anchor", function (d, i) {
+                            var pos = "middle";
+                            if (labelX(d, i) > size / 2 + 1) {
+                                pos = 'start';
+                            } else if (labelX(d, i) < size / 2 - 1) {
+                                pos = 'end';
+                            }
+                            return pos;
+                        })
+                        .attr("transform", function (d, i) {
+                            var translate = (svgW - size) / 2 + ',' + ((svgH) - (size)) / 2;
+                            if (labelY(d, i) > size - 1) {
+                                translate = (svgW - size) / 2 + ',' + ((svgH) - (size - 25)) / 2;
+                            } else if (labelY(d, i) < 5 && labelY(d, i) > -5) {
+                                translate = (svgW - size) / 2 + ',' + ((svgH) - (size + 25)) / 2;
+                            }
+                            return 'translate(' + translate + ')';
                         })
                         .attr("x", function (d, i) {
-//                                    console.log(this.getComputedTextLength());
-                            return cfg.w / 2 * (1 - cfg.factorLegend * Math.sin(i * cfg.radians / total)) - Math.sin(i * cfg.radians / total);
+                            return labelX(d, i);
                         })
                         .attr("y", function (d, i) {
-                            return cfg.h / 2 * (1 - Math.cos(i * cfg.radians / total)) - Math.cos(i * -cfg.radians / total);
-                        });
+                            return labelY(d, i);
+                        })
+                    ;
 
                     /*create the colored polygons that chart area*/
                     var series = 0;
@@ -201,8 +230,8 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                         g.selectAll(".nodes")
                             .data(d, function (j, i) {
                                 dataValues.push([
-                                        cfg.w / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * cfg.factor * Math.sin(i * cfg.radians / total)),
-                                        cfg.h / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * cfg.factor * Math.cos(i * cfg.radians / total))
+                                        scope.cfg.w / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / scope.cfg.maxValue) * Math.sin(i * scope.cfg.radians / total)),
+                                        scope.cfg.h / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / scope.cfg.maxValue) * Math.cos(i * scope.cfg.radians / total))
                                 ]);
                             });
                         dataValues.push(dataValues[0]);
@@ -212,19 +241,18 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                             .append("path")
                             .attr("class", "radarChartSeries" + series)
                             .style("stroke-width", "0")
-                            .style("stroke", cfg.color)
+                            .style("stroke", scope.cfg.color)
                             .attr("d", function (d) {
                                 var str = "";
                                 for (var pti = 0; pti < d.length; pti++) {
-                                    str = str + "250,250 ";
-                                    /* TODO this needs to change to fix the polygon so it emanates from the center*/
+                                    str = str + (size / 2) + "," + (size / 2) + " ";
                                 }
                                 return "M" + str;
                             })
                             .style("fill", function (j, i) {
-                                return cfg.color;
+                                return scope.cfg.color;
                             })
-                            .style("fill-opacity", cfg.opacityArea)
+                            .style("fill-opacity", scope.cfg.opacityArea)
                             .on('mouseover', function () {
                                 g.selectAll(".radarChartSeries" + seriesI)
                                     .transition(200)
@@ -236,7 +264,7 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                             .on('mouseout', function () {
                                 g.selectAll(".radarChartSeries" + seriesI)
                                     .transition(200)
-                                    .style("fill-opacity", cfg.opacityArea);
+                                    .style("fill-opacity", scope.cfg.opacityArea);
                             })
                             .transition()
                             .delay(seriesI * 1000)
@@ -256,10 +284,10 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                     series = 0;
 
                     var sinVal = function (j, i) {
-                        return cfg.w / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * cfg.factor * Math.sin(i * cfg.radians / total));
+                        return scope.cfg.w / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / scope.cfg.maxValue) * Math.sin(i * scope.cfg.radians / total));
                     };
                     var cosVal = function (j, i) {
-                        return cfg.h / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / cfg.maxValue) * cfg.factor * Math.cos(i * cfg.radians / total));
+                        return scope.cfg.h / 2 * (1 - (parseFloat(Math.max(j.value, 0)) / scope.cfg.maxValue) * Math.cos(i * scope.cfg.radians / total));
                     };
 
                     /*the dots that at the edges of the polygon*/
@@ -269,10 +297,9 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
 
                         var textWidth = [];
 
-
                         corners.append("svg:circle")
                             .attr("class", "dotSeries" + series)
-                            .attr('r', cfg.dotRadius)
+                            .attr('r', scope.cfg.dotRadius)
                             .attr("alt", function (j) {
                                 return Math.max(j.value, 0);
                             })
@@ -285,7 +312,7 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                             .attr("data-id", function (j) {
                                 return j.axis;
                             })
-                            .style("fill", cfg.color).style("fill-opacity", 0.9)
+                            .style("fill", scope.cfg.color).style("fill-opacity", 0.9)
 
                             .on('mouseover', function (onD, onI) {
                                 var paddingR = 10;
@@ -294,7 +321,7 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                                 var placement = function (placeD, placeI) {
                                     var bubbleRight = " 0,50 12,-10 " + widthOfBox + ",0 0,-40 z";
                                     var bubbleLeft = " 0,50 -12,-10 -" + widthOfBox + ",0 0,-40 z";
-                                    var bubbleDownRight = " 0,50, " + (widthOfBox + paddingR)+ ",0 0,-40, -38,0 z";
+                                    var bubbleDownRight = " 0,50, " + (widthOfBox + paddingR) + ",0 0,-40, -38,0 z";
                                     var bubbleDownLeft = " 0,50, -50,0 0,-40, " + widthOfBox + ",0 z";
                                     var bubVal = bubbleRight;
                                     var modY = -55;
@@ -304,14 +331,14 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                                     var paddingL = 0;
                                     var paddingT = 10;
 
-                                    if (x > cfg.w - widthOfBox) {
+                                    if (x > scope.cfg.w - widthOfBox) {
                                         paddingL = -widthOfBox - paddingR;
                                         bubVal = bubbleLeft;
                                     } else if (y < 50) {
                                         modY = 5;
                                         paddingT = 18;
                                         bubVal = bubbleDownRight;
-                                    } else if ((y < 50) && (x > cfg.w - widthOfBox)) {
+                                    } else if ((y < 50) && (x > scope.cfg.w - widthOfBox)) {
                                         modY = 5;
                                         bubVal = bubbleDownLeft;
                                     }
@@ -353,8 +380,8 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
                             .attr('class', function (d, i) {
                                 return "callOut" + i + forI + " " + "callOutSeries" + forI;
                             })
-//                            .style('display', 'none')
-                            .style("fill", cfg.colorTwo)
+                            .style('display', 'none')
+                            .style("fill", scope.cfg.colorTwo)
                         ;
                         /*the text in the bubbles*/
                         corners.append('text')
@@ -387,4 +414,3 @@ myApp.directive('isSpiderChart', function ($parse, $window, $timeout) {
         }
     };
 });
-

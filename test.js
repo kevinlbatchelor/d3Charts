@@ -30,7 +30,9 @@ var RadarChart = {
                 return o.value;
             }))
         }));
+        console.log(d);
         var allAxis = (d[0].map(function (i, j) {
+            console.log(i.axis);
             return i.axis
         }));
         var total = allAxis.length;
