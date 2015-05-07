@@ -1,0 +1,23 @@
+{
+  "name": "d3Charts",
+  "version": "0.0.0",
+  "homepage": "https://github.com/kevinlbatchelor/d3Charts",
+  "authors": [
+    "kevin batchelor"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-animate": "~1.3.14",
+    "bootstrap": "~3.3.2",
+    "d3": "~3.5.5",
+    "angular": "1.3.8",
+    "underscore": "~1.8.2"
+  }
+}
