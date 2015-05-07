@@ -14,9 +14,8 @@ myApp.controller("ctrl", function($scope) {
     ];
 
     $scope.add = function(){
-
         $scope.people.push({"name": "jum", "Emails": $scope.n(), "Social Networks":$scope.n(), "Internet Banking":$scope.n(),"News Sportsites":$scope.n(), "Search Engine":$scope.n(), "View Shopping sites": $scope.n()});
-        console.log($scope.people);
+
     };
 
     $scope.keys = [
@@ -36,7 +35,52 @@ myApp.controller("ctrl", function($scope) {
         showScale:true
     };
 
+    $scope.chart2 = {};
+    $scope.chart2.value = .70;
+    $scope.chart2.total = 1;
 
+    $scope.chart2.config = {
+        filter: 'number',
+        sections: 100,
+        colors: [
+            "#2FC2E0",
+            "#3EB1D6",
+            "#4EA0CC",
+            "#5D90C2",
+            "#6D7FB8",
+            "#7C6FAE",
+            "#8C5EA4",
+            "#9C4E9B",
+            "#A16097",
+            "#8E6B92",
+            "#7B768D",
+            "#698189",
+            "#568C84",
+            "#449780",
+            "#31A27B",
+            "#1FAD77",
+            "#3FB172",
+            "#54B76A",
+            "#69BD62",
+            "#7EC35A",
+            "#93C953",
+            "#A8CF4B",
+            "#BDD543",
+            "#D2DB3C",
+            "#CAC950",
+            "#CEB54B",
+            "#D2A247",
+            "#D78E43",
+            "#DB7B3F",
+            "#DF683A",
+            "#E45436",
+            "#E84132",
+            "#ED2E2E"
+        ],
+        thickness: 20,
+        transparency: 1,
+        stroke: 0
+    };
 });
 
 myApp.directive('oneT', function() {

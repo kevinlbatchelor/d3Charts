@@ -6,7 +6,7 @@ var colorScale = d3.scale.linear()
     .domain([0, data.length])
     .range(['#002640', '#0099FF']);
 
-var canvas = d3.select('body').append('svg')
+var canvas = d3.select('#pie').append('svg')
     .attr('width', 400)
     .attr('height', 300);
 

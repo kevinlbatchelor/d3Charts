@@ -1,128 +1,148 @@
-/*body {*/
-    /*padding-top: 50px;*/
-    /*padding-left: 100px;*/
-/*}*/
 
-/*body {*/
-    /*padding-top: 20px;*/
-    /*padding-left: 15px;*/
-    /*font-family: Arial, Helvetica, sans-serif;*/
-/*}*/
-
-/*.dot {*/
-    /*fill: #002640;*/
-    /*fill-opacity: 1;*/
-    /*stroke: #002640;*/
-/*}*/
-
-/*.active {*/
-    /*fill: #0099FF;*/
-    /*fill-opacity: 0.5;*/
-    /*stroke-width: 3px;*/
-/*}*/
-
-/*.axis path, .axis line {*/
-    /*fill: none;*/
-    /*stroke: #ccc;*/
-    /*stroke-width: 1px;*/
-    /*shape-rendering: crispEdges;*/
-/*}*/
-
-/*text {*/
-    /*fill: #ccc;*/
-/*}*/
-
-/*.well.one {*/
-    /*min-height: 200px;*/
-    /*width: 400px;*/
-    /*position: relative;*/
-/*}*/
-
-/*.well.two {*/
-    /*min-height: 200px;*/
-    /*width: 400px;*/
-    /*position: relative;*/
-/*}*/
-
-/*.toggle-class {*/
-    /*position: absolute;*/
-    /*-webkit-transition: linear 1s;*/
-    /*-moz-transition: linear 1s;*/
-    /*transition: linear 1s;*/
-    /*width: 300px;*/
-/*}*/
-
-/*.toggle-class.ng-enter {*/
-    /*opacity: 0;*/
-/*}*/
-
-/*.toggle-class.ng-enter-active {*/
-    /*opacity: 1;*/
-/*}*/
-
-/*.toggle-class.ng-leave {*/
-    /*opacity: 2;*/
-    /*margin-top: 0;*/
-/*}*/
-
-/*.toggle-class.ng-leave-active {*/
-    /*opacity: 0;*/
-/*}*/
-
-/*.toggle-hide {*/
-    /*position: absolute;*/
-    /*opacity: 1;*/
-    /*-webkit-transition: linear 1s;*/
-    /*-moz-transition: linear 1s;*/
-    /*transition: linear 1s;*/
-    /*width: 300px;*/
-    /*margin-top: 40px;*/
-/*}*/
-
-/*.toggle-hide.ng-hide {*/
-    /*opacity: 0;*/
-    /*margin-top: 40px;*/
-/*}*/
-
-/*is-gauge-chart {*/
-    /*display: block;*/
-    /*height: 100%;*/
-    /*width: 100%;*/
-/*}*/
-
-/*svg .arc path {*/
-    /*stroke: #fff;*/
-/*}*/
-/*text {*/
-    /*fill: #fff;*/
-/*}*/
-
-/*svg text{*/
-    /*fill: #000;*/
-/*}*/
-.box {
-    height: 380px;
-    width: 800px;
+.well {
+    height: 400px;
+    border-radius: 0;
+    background-color: #fff;
 }
 
-is-spider-chart {
+.btn {
+    border-radius: 0;
+    background-color: #fff;
+    border: 1px solid #cccccc;
+}
+
+body {
+    padding-top: 50px;
+    padding-left: 100px;
+
+}
+
+body {
+    padding-top: 20px;
+    padding-left: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.dot {
+    fill: #002640;
+    fill-opacity: 1;
+    stroke: #002640;
+}
+
+.active {
+    fill: #0099FF;
+    fill-opacity: 0.5;
+    stroke-width: 3px;
+}
+
+.axis path, .axis line {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+}
+
+text {
+    fill: #ccc;
+}
+
+.well.one {
+    min-height: 200px;
+    width: 400px;
+    position: relative;
+}
+
+.well.two {
+    min-height: 200px;
+    width: 400px;
+    position: relative;
+}
+
+.toggle-class {
+    position: absolute;
+    -webkit-transition: linear 1s;
+    -moz-transition: linear 1s;
+    transition: linear 1s;
+    width: 300px;
+}
+
+.toggle-class.ng-enter {
+    opacity: 0;
+}
+
+.toggle-class.ng-enter-active {
+    opacity: 1;
+}
+
+.toggle-class.ng-leave {
+    opacity: 2;
+    margin-top: 0;
+}
+
+.toggle-class.ng-leave-active {
+    opacity: 0;
+}
+
+.toggle-hide {
+    position: absolute;
+    opacity: 1;
+    -webkit-transition: linear 1s;
+    -moz-transition: linear 1s;
+    transition: linear 1s;
+    width: 300px;
+    margin-top: 40px;
+}
+
+.toggle-hide.ng-hide {
+    opacity: 0;
+    margin-top: 40px;
+}
+
+is-gauge-chart {
     display: block;
     height: 100%;
     width: 100%;
 }
-is-spider-chart text {
-    text-transform: uppercase;
+
+svg .arc path {
+    stroke: #fff;
 }
-is-spider-chart .radarChartSeries0 {
+text {
+    fill: #fff;
+}
+
+svg text{
+    fill: #000;
+}
+
+spider-chart {
+    display: block;
+    min-height: 200px;
+    height: 100%;
+    width: 100%;
+}
+spider-chart .radarChartSeries0 {
     fill: none !important;
     stroke-width: 2px !important;
-    stroke: #ccc !important;
+    stroke: #7d7e82 !important;
 }
-is-spider-chart .dotSeries0 {
-    fill: #ccc !important;
+spider-chart .dotSeries0 {
+    fill: #7d7e82 !important;
 }
-is-spider-chart .callOutSeries0 {
-    fill: #ccc !important;
+spider-chart .callOutSeries0 {
+    fill: #7d7e82 !important;
+}
+
+gauge-chart {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+gauge-chart svg .arc path {
+    stroke: #f3f3f3;
+}
+gauge-chart svg text {
+    fill: #7a7a7a;
 }
 
 

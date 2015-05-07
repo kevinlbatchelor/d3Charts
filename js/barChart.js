@@ -42,7 +42,7 @@ svg.selectAll('rect')
         return h - yScale(d);
     })
     .attr('width', xScale.rangeBand())
-    .attr("height", -1)
+    .attr("height",.1)
     .transition()
     .delay(function (d, i) {
         return i * 100;
