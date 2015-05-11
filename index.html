@@ -40,6 +40,13 @@
             </div>
             <div class="col-lg-4">
                 <div class="well">
+                    Using Transclude
+                    <input type="text" ng-model="model.title">
+                    <input type="text" ng-model="model.content">
+                    <zippy title="{{model.title}}"> Content is{{model.content}}</zippy>
+                    <hr>
+                    Compile
+                    <password></password>
                 </div>
             </div>
         </div>
@@ -98,5 +105,6 @@
 <script src="js/pieChartTwo.js"></script>
 <script src="js/isSpiderChart.js"></script>
 <script src="js/isGaugeChart.js"></script>
+<script src="js/zippy.js"></script>
 </body>
 </html>
