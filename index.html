@@ -18,7 +18,7 @@
 <div ng-app="myApp">
     <div class="container-fluid" ng-controller="ctrl">
         <div class="row">
-            <div class="col-lg-4"><!--understanding ngAnimate-->
+            <div class="col-lg-3"><!--understanding ngAnimate-->
                 <div class="well">
                     <button class="btn" ng-click="change=!change">animate</button>
                     <div ng-if="change" class="toggle-class">
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <!--understanding the = on a directive-->
                 <div class="well">
                     <!--below test is passed in as an item on scope.test on the controller-->
@@ -38,15 +38,21 @@
                     <one-t item="'Value passed in from Directive One'"></one-t>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <div class="well">
-                    Using Transclude
+                    Using Transclude zippy
                     <input type="text" ng-model="model.title">
                     <input type="text" ng-model="model.content">
                     <zippy title="{{model.title}}"> Content is{{model.content}}</zippy>
                     <hr>
                     Compile
                     <password></password>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="well">
+                    Video<hr>
+                    <video-player></video-player>
                 </div>
             </div>
         </div>
@@ -106,5 +112,6 @@
 <script src="js/isSpiderChart.js"></script>
 <script src="js/isGaugeChart.js"></script>
 <script src="js/zippy.js"></script>
+<script src="js/videoPlayer.js">></script>
 </body>
 </html>
