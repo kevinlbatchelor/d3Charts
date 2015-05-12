@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <title>d3</title>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/angularjs/angular.min.js"></script>
+    <script src="bower_components/d3/d3.min.js"></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css?v=1.0">
+</head>
+<body>
+
+<video id="video" width="400" controls autoplay>
+    <!--<source src="vids/fractal.avi" type="video/mp4">-->
+    <source src="vids/legos.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+</video>
+
+<script>
+    srcs = document.getElementById('video').children;
+    vid = document.getElementById('video');
+    var val;
+    var checkVideo = function () {
+        for (var i = 0; i < srcs.length; i++) {
+            srcs[i].addEventListener('error', function () {
+                return setter(fallBack)
+            }, true);
+        }
+        console.log(val);
+    };
+
+    var setter = function (work) {
+        val = true;
+        work(val)
+    };
+
+    var fallBack = function (vidFailed) {
+        console.log(vidFailed);
+    };
+
+    function getVids() {
+        return new Promise(function (resolve, reject) {
+            vid.addEventListener('play', function () {
+                resolve("Enjoy the show");
+            });
+
+            for (var i = 0; i < srcs.length; i++) {
+                srcs[i].addEventListener('error', function (e) {
+                    reject("Something went amuck");
+                }, true);
+            }
+        });
+    }
+
+
+    getVids().then(function (msg) {
+        console.log(msg);
+    }, function (error) {
+        console.log(error);
+    });
+
+</script>
+</body>
+</html>
