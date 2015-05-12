@@ -24,6 +24,9 @@
     srcs = document.getElementById('video').children;
     vid = document.getElementById('video');
     var val;
+
+//    async using callback
+
     var checkVideo = function () {
         for (var i = 0; i < srcs.length; i++) {
             srcs[i].addEventListener('error', function () {
@@ -41,6 +44,8 @@
     var fallBack = function (vidFailed) {
         console.log(vidFailed);
     };
+
+//    async using promise
 
     function getVids() {
         return new Promise(function (resolve, reject) {
