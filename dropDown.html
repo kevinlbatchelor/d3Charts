@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+<meta charset="UTF-8">
+
+<title>drop Down</title>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/angularjs/angular.min.js"></script>
+    <script src="bower_components/d3/d3.min.js"></script>
+    <script src="bower_components/underscore/underscore-min.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="js/main.js"></script>
+
+    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css?v=1.0">
+
+<script>
+    var mainApp = angular.module('mainApp', ['ui.bootstrap']);
+
+    mainApp.controller('mainCtrl', function ($scope, $timeout) {
+
+        $scope.locations = [
+            {    name: 'Antarctica'
+            },
+            {    name: 'Europe',
+                children: [
+                    {    name: 'Italy',
+                        children: [
+                            {name: 'Rome'},
+                            {name: 'Milan',
+                                children:[
+                                    {name: 'West Side'},
+                                    {name: 'East Side'}
+                                ]}
+                        ]},
+                    {    name: 'Spain'}
+                ]
+            },
+            {    name: 'South America',
+                children: [
+                    {    name: 'Brasil'   },
+                    {    name: 'Peru' }
+                ]
+            },
+            {    name: 'North America',
+                children: [
+                    {    name: 'United States'   },
+                    {    name: 'Canada' }
+                ]
+            },
+            {    name: 'Africa',
+                children: [
+                    {    name: 'Morocco'   },
+                    {    name: 'Algeria' },
+                    {    name: 'Libya' },
+                    {    name: 'Egypt' },
+                    {    name: 'Sudan' },
+                    {    name: 'Eritrea' }
+                ]
+            }
+        ];
+
+        $scope.isCollapsed = true;
+
+    });
+
+    mainApp.directive('isDropDown', function ($compile, $timeout) {
+        return {
+            restrict: "E",
+            scope: {
+                data: '='
+            },
+            template: "",
+            link: function (scope, element, attrs) {
+
+                var list = angular.element("<div ng-repeat='item in data'>" +
+                        "<div class='isDropDownItem'>" +
+                        "{{item.name}}" +
+                        "<a ng-if='item.hasChild' ng-click='openChild(item.children)'><i class='glyphicon glyphicon-chevron-right pull-right'></i></a>" +
+                        "</div>" +
+                        "</div>");
+                $compile(list)(scope);
+                element.append(list);
+
+                var mapData = function(thingToMap){
+                    thingToMap.map(function(i){
+                        if(angular.isObject(i)){
+                            angular.forEach(i, function (values, itt) {
+                                if (angular.isArray(values)) {
+                                    i.children = values;
+                                    i.hasChild = true;
+                                }
+                            });
+                        }
+                        return i;
+                    });
+                };
+
+                mapData(scope.data);
+
+                scope.i = 0;
+                scope.steps =[];
+
+                scope.openChild = function(children){
+                    scope.steps.push(children);
+
+                    scope.slideClass = "dropDownChild";
+
+                    var newList = angular.element("<div ng-class='slideClass'><div ng-repeat='item in steps["+scope.i+"]'>" +
+                            "<div class='isDropDownItem'>" +
+                            "{{item.name}}" +
+                            "<a ng-if='item.hasChild' ng-click='openChild(item.children)'><i class='glyphicon glyphicon-chevron-right pull-right'></i></a>" +
+                            "<a ng-click='closeChild(item.children)'><i class='glyphicon glyphicon-chevron-left pull-right'></i></a>" +
+                            "</div>" +
+                            "</div></div>");
+                    $compile(newList)(scope);
+                    element.append(newList);
+
+                    mapData(scope.steps[scope.i]);
+
+                    scope.i++;
+
+                    $timeout(function(){
+                        newList.addClass("dropDownChildEndPosition");
+                        newList.addClass(scope.i+"-slide");
+                    });
+                };
+
+                scope.closeChild = function(){
+                    var slide = element.find("."+scope.i+"-slide");
+                    scope.i--;
+                    slide.addClass("dropDownChildStartPosition");
+                }
+            }
+        }
+    })
+
+</script>
+
+<style type="text/css">
+    .isDropDown {
+        max-width: 300px;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    .dropDownChild {
+        background-color: #ffffff;
+        min-height: 250px;
+        position: absolute;
+        z-index: 100;
+        width: 300px;
+        top: 0;
+        left: 300px;
+    }
+
+    .dropDownChildEndPosition{
+        transition: left 1s;
+        left: 0;
+    }
+    .dropDownChildStartPosition{
+        transition: left 1s;
+        left: 300px;
+    }
+
+    .isDropDownItem {
+        background-color: #fff;
+        height: 50px;
+        font-size: 14px;
+        padding: 15px;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .isDropDownBtn {
+        height: 50px;
+        padding: 15px;
+        font-size: 14px;
+        min-width: 300px;
+        border: none;
+        border-bottom: 1px solid #ccc;
+    }
+</style>
+</head>
+<body ng-app="mainApp">
+<div ng-controller="mainCtrl">
+    <is-accordion>
+        <div class="title">isDropDown</div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="tile tileHeight-5">
+                        the drop down description
+                        <hr>
+                        <button class='btn btn-default isDropDownBtn' ng-click='isCollapsed = !isCollapsed'>countries</button>
+                        <div class='isDropDown' collapse='isCollapsed'>
+                            <is-drop-down data='locations'></is-drop-down>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </is-accordion>
+</div>
+</body>
