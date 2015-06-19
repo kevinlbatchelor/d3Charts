@@ -4,22 +4,23 @@
 <meta charset="UTF-8">
 
 <title>drop Down</title>
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/angularjs/angular.min.js"></script>
-    <script src="bower_components/d3/d3.min.js"></script>
-    <script src="bower_components/underscore/underscore-min.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="js/main.js"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/angularjs/angular.min.js"></script>
+<script src="bower_components/d3/d3.min.js"></script>
+<script src="bower_components/underscore/underscore-min.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+<script src="js/main.js"></script>
 
-    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css?v=1.0">
+<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css?v=1.0">
 
 <script>
     var mainApp = angular.module('mainApp', ['ui.bootstrap']);
 
     mainApp.controller('mainCtrl', function ($scope, $timeout) {
+        $scope.item = {};
 
         $scope.locations = [
             {    name: 'Antarctica'
@@ -30,7 +31,7 @@
                         children: [
                             {name: 'Rome'},
                             {name: 'Milan',
-                                children:[
+                                children: [
                                     {name: 'West Side'},
                                     {name: 'East Side'}
                                 ]}
@@ -66,27 +67,53 @@
 
     });
 
-    mainApp.directive('isDropDown', function ($compile, $timeout) {
+    mainApp.directive('dropDown', ['$compile', '$timeout', '$parse', function ($compile, $timeout, $parse) {
         return {
             restrict: "E",
             scope: {
-                data: '='
+                ngModel: '=',
+                data: '=',
+                config: '='
             },
-            template: "",
             link: function (scope, element, attrs) {
+                var config = {
+                    idField: null
+                };
+
+                angular.extend(config, scope.config);
+
+                var currentStep = 0;
+                var slideNumber = 0;
+                var buttonConfig = {inputs: {back: false, search: false}};
+                scope.steps = [];
+                scope.isCollapsed = true;
+
+
+                var group = angular.element("<div class='isDropDown' collapse='isCollapsed'></div>");
+                $compile(group)(scope);
+                element.append(group);
 
                 var list = angular.element("<div ng-repeat='item in data'>" +
-                        "<div class='isDropDownItem'>" +
+                        "<div ng-hide='item.inputs.back===false' class='isDropDownItem' ng-click='handleClick(item)'>" +
                         "{{item.name}}" +
-                        "<a ng-if='item.hasChild' ng-click='openChild(item.children)'><i class='glyphicon glyphicon-chevron-right pull-right'></i></a>" +
+                        "<i ng-if='item.hasChild' class='glyphicon glyphicon-chevron-right pull-right'></i>" +
                         "</div>" +
                         "</div>");
                 $compile(list)(scope);
-                element.append(list);
+                group.append(list);
 
-                var mapData = function(thingToMap){
-                    thingToMap.map(function(i){
-                        if(angular.isObject(i)){
+                var button = angular.element("<button class='btn btn-default isDropDownBtn' ng-click='isCollapsed = !isCollapsed'>countries</button>");
+                $compile(button)(scope);
+                button.insertBefore(group);
+
+                var mapData = function (thingToMap, button) {
+                    if (angular.isUndefined(thingToMap[0].inputs)) {
+                        thingToMap.unshift(button);
+                    }
+
+                    thingToMap.map(function (i) {
+
+                        if (angular.isObject(i)) {
                             angular.forEach(i, function (values, itt) {
                                 if (angular.isArray(values)) {
                                     i.children = values;
@@ -98,71 +125,106 @@
                     });
                 };
 
-                mapData(scope.data);
+                var getId = $parse(config.idField);
 
-                scope.i = 0;
-                scope.steps =[];
-
-                scope.openChild = function(children){
-                    scope.steps.push(children);
-
-                    scope.slideClass = "dropDownChild";
-
-                    var newList = angular.element("<div ng-class='slideClass'><div ng-repeat='item in steps["+scope.i+"]'>" +
-                            "<div class='isDropDownItem'>" +
-                            "{{item.name}}" +
-                            "<a ng-if='item.hasChild' ng-click='openChild(item.children)'><i class='glyphicon glyphicon-chevron-right pull-right'></i></a>" +
-                            "<a ng-click='closeChild(item.children)'><i class='glyphicon glyphicon-chevron-left pull-right'></i></a>" +
-                            "</div>" +
-                            "</div></div>");
-                    $compile(newList)(scope);
-                    element.append(newList);
-
-                    mapData(scope.steps[scope.i]);
-
-                    scope.i++;
-
-                    $timeout(function(){
-                        newList.addClass("dropDownChildEndPosition");
-                        newList.addClass(scope.i+"-slide");
-                    });
+                scope.updateNgModel = function (value) {
+                    if (config.idField) {
+                        scope.ngModel = getId(value);
+                    } else {
+                        scope.ngModel = value;
+                    }
                 };
 
-                scope.closeChild = function(){
-                    var slide = element.find("."+scope.i+"-slide");
-                    scope.i--;
+                mapData(scope.data, buttonConfig);
+
+                scope.handleClick = function (clickedItem) {
+                    if (angular.isDefined(clickedItem.children)) {
+                        scope.openChild(clickedItem.children);
+                    } else if (angular.isDefined(clickedItem.inputs)) {
+                        scope.closeChild();
+                    } else {
+                        scope.updateNgModel(clickedItem);
+                        scope.isCollapsed = true;
+                    }
+                };
+
+                scope.getOption = function (option) {
+                    if (config.idField) {
+                        return config.idField(option);
+                    } else {
+                        return option;
+                    }
+                };
+
+                scope.openChild = function (children) {
+                    if (children) {
+                        element.find(".dropDownChildStartPosition").remove();
+
+                        scope.steps.push(children);
+                        scope.slideClass = "dropDownChild";
+
+                        var list = angular.element("<div ng-class='slideClass'><div ng-repeat='item in steps[" + slideNumber + "]'>" +
+                                "<div class='isDropDownItem' ng-click='handleClick(item)'>" +
+                                "<span>{{item.name}}</span>" +
+                                "<div ng-if='item.inputs.back'><i class='glyphicon glyphicon-chevron-left'></i> Back</div>" +
+                                "<i ng-if='item.hasChild' class='glyphicon glyphicon-chevron-right pull-right'></i>" +
+                                "</div>" +
+                                "</div></div>");
+                        $compile(list)(scope);
+                        group.append(list);
+
+                        mapData(scope.steps[slideNumber], {inputs: {back: true, search: false}});
+
+                        $timeout(function () {
+                            list.addClass("dropDownChildEndPosition");
+                            list.addClass(currentStep + "-slide");
+                        });
+                        currentStep++;
+                        slideNumber++;
+                    }
+                };
+
+                scope.closeChild = function () {
+                    var slide = element.find("." + currentStep + "-slide");
+                    currentStep--;
                     slide.addClass("dropDownChildStartPosition");
-                }
+                };
             }
-        }
-    })
+        };
+    }]);
+
 
 </script>
 
 <style type="text/css">
     .isDropDown {
         max-width: 300px;
-        position: relative;
+        position: absolute;
+        min-width: 300px;
         overflow-x: hidden;
     }
 
     .dropDownChild {
-        background-color: #ffffff;
-        min-height: 250px;
+        background-color: #fff;
         position: absolute;
         z-index: 100;
         width: 300px;
         top: 0;
         left: 300px;
+        height: 100%;
+
     }
 
-    .dropDownChildEndPosition{
+    .dropDownChildEndPosition {
         transition: left 1s;
         left: 0;
+
     }
-    .dropDownChildStartPosition{
+
+    .dropDownChildStartPosition {
         transition: left 1s;
         left: 300px;
+
     }
 
     .isDropDownItem {
@@ -171,6 +233,7 @@
         font-size: 14px;
         padding: 15px;
         border-bottom: 1px solid #ccc;
+
     }
 
     .isDropDownBtn {
@@ -178,29 +241,22 @@
         padding: 15px;
         font-size: 14px;
         min-width: 300px;
-        border: none;
+        border: 0;
         border-bottom: 1px solid #ccc;
+
     }
 </style>
 </head>
 <body ng-app="mainApp">
 <div ng-controller="mainCtrl">
-    <is-accordion>
-        <div class="title">isDropDown</div>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="tile tileHeight-5">
-                        the drop down description
-                        <hr>
-                        <button class='btn btn-default isDropDownBtn' ng-click='isCollapsed = !isCollapsed'>countries</button>
-                        <div class='isDropDown' collapse='isCollapsed'>
-                            <is-drop-down data='locations'></is-drop-down>
-                        </div>
-                    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="well">
+                    <drop-down data='locations' ng-model='item'></drop-down>{{item}}
                 </div>
             </div>
         </div>
-    </is-accordion>
+    </div>
 </div>
 </body>
