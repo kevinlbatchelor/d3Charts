@@ -1,155 +1,231 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta charset="utf-8">
-    <title>d3</title>
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="bower_components/angularjs/angular.min.js"></script>
-    <script src="bower_components/d3/d3.min.js"></script>
-    <script src="bower_components/underscore/underscore-min.js"></script>
-    <script src="bower_components/angular-animate/angular-animate.js"></script>
-    <script src="js/main.js"></script>
+<meta charset="utf-8">
+<title>d3</title>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/angularjs/angular.min.js"></script>
+<script src="bower_components/d3/d3.min.js"></script>
+<script src="bower_components/underscore/underscore-min.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="js/main.js"></script>
 
-    <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css?v=1.0">
+<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css?v=1.0">
 
-    <script>
-        var mainApp = angular.module('mainApp', []);
+<script>
+var mainApp = angular.module('mainApp', []);
 
-        mainApp.controller('mainCtrl', function ($scope, $timeout) {
-            $scope.modernWebBrowsers = [
-                {
-                    name: "Opera.jpg",
-                    maker: "(Opera Software)",
-                    id: 1,
-                    imagePath: "browsers/old/Opera.jpg",
-                    groups: ["browsers", "old"]
-                },
-                {
-                    name: "Netscape.jpg",
-                    maker: "(Netscape Navigator)",
-                    id: 2,
-                    imagePath: "browsers/old/NetScape.jpg",
-                    groups: ["browsers", "old"]
-                },
-                {
-                    name: "Internet Explorer.jpg",
-                    maker: "(Microsoft)",
-                    id: 3,
-                    imagePath: "browsers/old/buggy/Internet Explorer.jpg",
-                    groups: ["browsers", "old", "buggy"]
-                },
-                {
-                    name: "Firefox.jpg",
-                    maker: "(Mozilla Foundation)",
-                    id: 4,
-                    imagePath: "browsers/modern/Firefox.jpg",
-                    groups: ["browsers", "modern"]
-                },
-                {
-                    name: "Safari.jpg",
-                    maker: "(Apple)",
-                    id: 5,
-                    imagePath: "browsers/modern/buggy/Safari.jpg",
-                    groups: ["browsers", "modern", "buggy"]
-                },
-                {
-                    name: "Chrome.jpg",
-                    maker: "(Google)",
-                    id: 6,
-                    imagePath: "browsers/modern/Chrome.jpg",
-                    groups: ["browsers", "modern"]
-                },
-                {
-                    name: "topThing.jpg",
-                    maker: "(Google)",
-                    id: 7,
-                    imagePath: "topThing.jpg",
-                    groups: []
-                }
-            ];
+mainApp.controller('mainCtrl', function ($scope, $timeout) {
+    $scope.modernWebBrowsers = [
+        {
+            name: "Opera.jpg",
+            maker: "(Opera Software)",
+            id: 1,
+            parent: "modern",
+            imagePath: "browsers/old/buggy/Opera.jpg"
+        },
+        {
+            name: "Netscape.jpg",
+            maker: "(Netscape Navigator)",
+            id: 2,
+            imagePath: "browsers/old/NetScape.jpg",
+        },
+        {
+            name: "Internet Explorer.jpg",
+            maker: "(Microsoft)",
+            id: 3,
+            imagePath: "browsers/old/buggy/Internet Explorer.jpg"
+        },
+        {
+            name: "Firefox.jpg",
+            maker: "(Mozilla Foundation)",
+            id: 4,
+            imagePath: "browsers/modern/Firefox.jpg"
+        },
+        {
+            name: "Safari.jpg",
+            maker: "(Apple)",
+            id: 5,
+            imagePath: "browsers/modern/buggy/Safari.jpg"
+        },
+        {
+            name: "Chrome.jpg",
+            maker: "(Google)",
+            id: 6,
+            imagePath: "browsers/modern/Chrome.jpg"
+        },
+        {
+            name: "topThing.jpg",
+            maker: "(Google)",
+            id: 7,
+            imagePath: "topThing.jpg"
+        }
+    ];
 
-            var mapData2 = function (thingToMap) {
-                return thingToMap.map(function (i) {
-                    if (angular.isObject(i)) {
-                        angular.forEach(i, function (values, itt) {
-                            if (angular.isArray(values)) {
-                                i.$children = values;
-                                i.$hasChild = true;
-                            }
-                            if (i.$hasChild) {
-                                mapData(i.$children);
-                            }
-                        });
+    var data = [
+        {
+            name: "Opera.jpg",
+            maker: "(Opera Software)",
+            id: 1,
+            imagePath: "browsers/old/buggy/Opera.jpg",
+            parent: "old",
+            depth: "2"
+        },
+        {
+            name: "Netscape.jpg",
+            maker: "(Netscape Navigator)",
+            id: 2,
+            parent: "old",
+            depth: 2
+        },
+        {
+            name: "Internet Explorer.jpg",
+            maker: "(Microsoft)",
+            id: 3,
+            parent: "buggy",
+            depth: 4
+        },
+        {
+            name: "Firefox.jpg",
+            maker: "(Mozilla Foundation)",
+            id: 4,
+            parent: "modern",
+            depth: 2
+        },
+        {
+            name: "Safari.jpg",
+            maker: "(Apple)",
+            id: 5,
+            parent: "buggy",
+            depth: 3
+        },
+        {
+            name: "buggy",
+            depth: 2,
+            parent:"modern"
+        },
+        {
+            name: "buggy",
+            depth: 2,
+            parent:"old"
+        },
+        {
+            name: "modern",
+            depth: 1,
+            parent: "browsers"
+        },
+        {
+            name: "old",
+            depth: 1,
+            parent: "browsers"
+        },
+
+        {
+            name: "Chrome.jpg",
+            maker: "(Google)",
+            id: 6,
+            parent: "modern",
+            depth: 2
+        },
+        {
+            name: "browsers",
+            parent: null,
+            depth: 0
+        }
+    ];
+
+// create a name: node map
+    var dataMap = data.reduce(function (map, node) {
+        map[node.name] = node;
+        return map;
+    }, {});
+
+// create the tree array
+    var tree = [];
+    data.forEach(function (node) {
+        // add to parent
+        var parent = dataMap[node.parent];
+        if (parent) {
+            // create child array if it doesn't exist
+            (parent.children || (parent.children = []))
+                // add node to child array
+                    .push(node);
+        } else {
+            // parent is null or missing
+            tree.push(node);
+        }
+    });
+
+// show what we've got
+    d3.select('body').append('pre')
+            .text(JSON.stringify(tree, null, '  '));
+
+    var mapData2 = function (thingToMap) {
+        return thingToMap.map(function (i) {
+            if (angular.isObject(i)) {
+                angular.forEach(i, function (values, itt) {
+                    if (angular.isArray(values)) {
+                        i.$children = values;
+                        i.$hasChild = true;
                     }
-                    return i;
+                    if (i.$hasChild) {
+                        mapData(i.$children);
+                    }
                 });
-            };
+            }
+            return i;
+        });
+    };
 
 
-            var groupData = function (thingToMap, funct) {
-                return thingToMap.map(function (i) {
-                    i.$groups = funct(i);
-                    return i
-                })
-            };
+    var groupData = function (thingToMap, funct) {
+        return thingToMap.map(function (i) {
+            i.$groups = funct(i);
+            return i
+        })
+    };
 
-            var mapData = function (thingToMap){
-                var data = [];
-                var newObj = {};
+    var mapData = function (objToNest) {
+        var data = [];
+        var newObj = {};
+        _.forEach(objToNest, function (prop, key, obj) {
+            if (key === "$groups") {
+                newObj.name = obj.$groups[0];
+
                 newObj.children = [];
-                _.forEach(thingToMap, function(value){
-
-                    if(value.$groups) {
-
-                        if (angular.isArray(value.$groups) && value.$groups.length > 0) {
-
-                            newObj.name = value.$groups[0];
-                            data.push(newObj);
-                            data = _.uniq(data, 'name');
-
-                            _.forEach(value.$groups, function(e, i){
-                                if(data[0].name != value.$groups[i]){
-                                    newObj.name = value.$groups[i];
-                                    var o = {};
-                                    o.name = value.$groups[i];
-                                    newObj.children.push(o);
-                                    _.uniq(newObj.children,'name');
-                                }
-
-                                console.log(value.$groups[i]);
-                            });
-
-//                           })
-                        } else {
-//                            console.log(value);
-                        }
-                    }
-                    _.forEach(value, function(objProperties, itt, t){
-//                        console.log(itt);
-                    });
+                newObj.children.push(obj.$groups[1]);
+                data.push(newObj);
 
 
-                });
+            }
+            objToNest.$groups = objToNest.$groups.unshift();
+            _.forEach(obj.$groups, function (array, it) {
+                console.log(array)
 
-                console.log(data);
-                return data;
-            };
-
-            var groupedData = groupData($scope.modernWebBrowsers, function (item) {
-                var group = item.imagePath.split("/");
-                group.pop();
-                return group;
             });
 
-            var res = mapData(groupedData);
-
-            var print = JSON.stringify(res, null, "     ");
-            console.log(print);
         });
-    </script>
+
+        return data
+
+    };
+
+    var groupedData = groupData($scope.modernWebBrowsers, function (item) {
+        var group = item.imagePath.split("/");
+        group.pop();
+        return group;
+    });
+    console.log($scope.modernWebBrowsers[0])
+
+    var res = mapData($scope.modernWebBrowsers[0]);
+
+    var print = JSON.stringify(res, null, "     ");
+    console.log(print);
+});
+</script>
 
 
 </head>
@@ -165,4 +241,4 @@
 </body>
 </html>
 http://stackoverflow.com/questions/17847131/generate-multilevel-flare-json-data-format-from-flat-json<br>
-        check console
+check console
