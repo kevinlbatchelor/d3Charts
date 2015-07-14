@@ -81,6 +81,25 @@ myApp.controller("ctrl", function($scope) {
         transparency: 1,
         stroke: 0
     };
+
+//    pop up
+    $scope.config = {
+    };
+
+    $scope.config2 = {
+        position: 'bottom',
+        showOnClick: true
+    };
+
+    $scope.config3 = {
+        position: 'left'
+    };
+
+    $scope.config4 = {
+        position: 'right'
+    };
+
+    $scope.isPopover = 'this is the text';
 });
 
 myApp.directive('oneT', function() {
