@@ -1,4 +1,4 @@
-var myApp = angular.module("myApp", ['ngAnimate']);
+var myApp = angular.module("myApp", ['ngAnimate', 'ui.bootstrap']);
 
 myApp.controller("ctrl", function($scope) {
     $scope.scopeValue = 'Initial scope value from ctrl';
@@ -100,6 +100,54 @@ myApp.controller("ctrl", function($scope) {
     };
 
     $scope.isPopover = 'this is the text';
+
+    $scope.item = {};
+    $scope.config={name:'countries'};
+
+//    drop down directive
+
+    $scope.locations = [
+        {    name: 'Antarctica'
+        },
+        {    name: 'Europe',
+            children: [
+                {    name: 'Italy',
+                    children: [
+                        {name: 'Rome'},
+                        {name: 'Milan',
+                            children: [
+                                {name: 'West Side'},
+                                {name: 'East Side'}
+                            ]}
+                    ]},
+                {    name: 'Spain'}
+            ]
+        },
+        {    name: 'South America',
+            children: [
+                {    name: 'Brasil'   },
+                {    name: 'Peru' }
+            ]
+        },
+        {    name: 'North America',
+            children: [
+                {    name: 'United States'   },
+                {    name: 'Canada' }
+            ]
+        },
+        {    name: 'Africa',
+            children: [
+                {    name: 'Morocco'   },
+                {    name: 'Algeria' },
+                {    name: 'Libya' },
+                {    name: 'Egypt' },
+                {    name: 'Sudan' },
+                {    name: 'Eritrea' }
+            ]
+        }
+    ];
+
+    $scope.isCollapsed = true;
 });
 
 myApp.directive('oneT', function() {
@@ -130,3 +178,4 @@ myApp.directive('twoT', function() {
 
     };
 });
+

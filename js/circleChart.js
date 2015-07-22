@@ -10,7 +10,6 @@ var svg = d3.select('#cirBar').append('svg')
     .append('g')
     .attr('transform', 'translate(' + margin.left + '200, ' + margin.top + '150)');
 
-
 var dataset = _.map(_.range(items), function (i) {
     if (i % 3 == 0) {
         return 60
@@ -18,7 +17,6 @@ var dataset = _.map(_.range(items), function (i) {
     else {
         return 0;
     }
-
 });
 
 var colorScale = d3.scale.linear()
