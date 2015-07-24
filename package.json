@@ -2,7 +2,10 @@
   "devDependencies": {
     "apache-server-configs": "2.11.0",
     "archiver": "^0.13.0",
+    "body-parser": "^1.13.2",
+    "cors": "^2.7.1",
     "del": "^1.1.0",
+    "express": "^4.13.1",
     "glob": "^4.2.1",
     "gulp": "^3.8.10",
     "gulp-header": "^1.2.2",
@@ -14,6 +17,8 @@
     "jquery": "1.11.2",
     "jshint-stylish": "^1.0.0",
     "mocha": "^2.0.1",
+    "mongoose": "^3.8.23",
+    "mongoose-multitenant": "^0.8.2",
     "normalize.css": "3.0.2",
     "run-sequence": "^1.0.2"
   },
