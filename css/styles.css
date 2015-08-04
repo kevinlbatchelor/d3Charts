@@ -259,5 +259,11 @@ gauge-chart svg text {
 
 }
 
+/*moving bar chart*/
+moving-bar-chart{
+    display: block;
+    height: 100%;
+    width: 100%;
+}
 
 

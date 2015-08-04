@@ -7,66 +7,75 @@ myApp.directive('movingBarChart', ['$parse', '$window', '$filter', '$timeout', f
         },
 
         link: function (scope, elem) {
-            var count = 0;
-            var remove = 0;
-            var config = {
-                w: 700,
-                h: 300,
-                width: 12,
-                slideOver: -12,
-                scale: 10000,
-                colorOne: 'white',
-                colorTwo: '#44abda',
-                margin : {top: 20, right: 20, bottom: 20, left: 20}
-            };
+            $timeout(function () {
 
-            angular.extend(config, scope.config);
+                var count = 0;
+                var remove = 0;
+                var config = {
+                    w: 700,
+                    h: 100,
+                    width: 12,
+                    slideOver: -12,
+                    scale: 10000,
+                    colorOne: 'white',
+                    colorTwo: '#44abda',
+                    margin: {top: 20, right: 20, bottom: 20, left: 20}
+                };
 
-            var barsToShow= config.w / 13;
-            scope.dataSet = [];
+                angular.extend(config, scope.config);
 
-            var svg = d3.select(elem[0]).append("svg")
-                .attr('width', config.w + config.margin.left + config.margin.right)
-                .attr('height', config.h + config.margin.top + config.margin.bottom)
-                .append('g')
-                .attr('transform', 'translate(' + config.margin.left + ', ' + config.margin.top + ')');
+                config.w = elem[0].offsetWidth;
+//                config.h = elem[0].offsetHeight;
+                console.log(elem[0].offsetWidth);
+//                console.log(elem[0].offsetHeight);
 
-            var yScale = d3.scale.linear()
-                .domain([0, config.scale])
-                .range([0, config.h]);
+                var barsToShow = config.w / 13;
+                scope.dataSet = [];
 
-            scope.$watch('newNumber', function () {
-                count++;
-                scope.dataSet.push(scope.newNumber);
 
-                svg.selectAll('rect').data(scope.dataSet)
-                    .enter().append('rect')
-                    .attr('class', 'bar' + count)
-                    .attr('x', function () {
-                        config.width = config.width + 12;
-                        return config.width;
-                    })
-                    .attr('y', function (d) {
-                        return config.h - yScale(d);
-                    })
-                    .attr('width', 10)
-                    .attr('height', yScale)
-                    .attr('fill', function (d, i) {
-                        return config.colorOne;
-                    })
-                    .transition()
-                    .attr('fill', function (d, i) {
-                        return config.colorTwo;
-                    });
+                var svg = d3.select(elem[0]).append("svg")
+                    .attr('width', config.w + config.margin.left + config.margin.right)
+                    .attr('height', config.h + config.margin.top + config.margin.bottom)
+                    .append('g')
+                    .attr('transform', 'translate(' + config.margin.left + ', ' + config.margin.top + ')');
 
-                if (count > barsToShow) {
-                    remove++;
-                    config.slideOver = config.slideOver - 12;
-                    svg.attr('transform', 'translate(' + config.slideOver + ', ' + config.margin.top + ')');
-                    svg.select('.bar' + remove).remove();
-                    scope.dataSet.shift();
-                }
-            });
+                var yScale = d3.scale.linear()
+                    .domain([0, config.scale])
+                    .range([0, config.h]);
+
+                scope.$watch('newNumber', function () {
+                    count++;
+                    scope.dataSet.push(scope.newNumber);
+
+                    svg.selectAll('rect').data(scope.dataSet)
+                        .enter().append('rect')
+                        .attr('class', 'bar' + count)
+                        .attr('x', function () {
+                            config.width = config.width + 12;
+                            return config.width;
+                        })
+                        .attr('y', function (d) {
+                            return config.h - yScale(d);
+                        })
+                        .attr('width', 10)
+                        .attr('height', yScale)
+                        .attr('fill', function (d, i) {
+                            return config.colorOne;
+                        })
+                        .transition()
+                        .attr('fill', function (d, i) {
+                            return config.colorTwo;
+                        });
+
+                    if (count > barsToShow) {
+                        remove++;
+                        config.slideOver = config.slideOver - 12;
+                        svg.attr('transform', 'translate(' + config.slideOver + ', ' + config.margin.top + ')');
+                        svg.select('.bar' + remove).remove();
+                        scope.dataSet.shift();
+                    }
+                });
+            }, 500);
         }
     };
 }]);
