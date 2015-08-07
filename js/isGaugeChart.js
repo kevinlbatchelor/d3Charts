@@ -1,5 +1,4 @@
-
-myApp.directive('gaugeChart', ['$parse', '$window', '$filter', '$timeout', function ($parse, $window, $filter, $timeout) {
+myApp.directive('gaugeChart', ['$parse', '$window', '$filter', '$timeout', '$q', function ($parse, $window, $filter, $timeout, $q) {
     return{
         restrict: 'EA',
         scope: {
@@ -62,7 +61,7 @@ myApp.directive('gaugeChart', ['$parse', '$window', '$filter', '$timeout', funct
                     draw();
                 };
 
-                var removeSvg = function(){
+                var removeSvg = function () {
                     d3.select(elem[0]).select("svg").remove();
                 };
 
@@ -80,7 +79,7 @@ myApp.directive('gaugeChart', ['$parse', '$window', '$filter', '$timeout', funct
                         .outerRadius(radius - scope.cfg.thickness);
                 };
 
-                var configSettings =  function(){
+                var configSettings = function () {
                     if (scope.cfg.filter === 'number' && angular.isUndefined(scope.cfg.filterParams)) {
                         scope.cfg.filterParams = [0];
                     }
@@ -100,6 +99,7 @@ myApp.directive('gaugeChart', ['$parse', '$window', '$filter', '$timeout', funct
 
                 };
 
+                var pie = '';
                 scope.setUpData = function () {
                     if (!scope.cfg.sections) {
                         scope.cfg.sections = scope.total;
@@ -111,6 +111,11 @@ myApp.directive('gaugeChart', ['$parse', '$window', '$filter', '$timeout', funct
                         return 1;
                     });
                     end = (((scope.value * 2) / scope.total) * Math.PI);
+
+                    pie = d3.layout.pie()
+                        .sort(null)
+                        .startAngle(0)
+                        .endAngle(end);
                 };
 
                 var draw = function () {
@@ -119,18 +124,13 @@ myApp.directive('gaugeChart', ['$parse', '$window', '$filter', '$timeout', funct
                     var colorScale = scope.fade.domain([0, scope.cfg.sections])
                         .range(scope.cfg.colors);
 
-                    var pie = d3.layout.pie()
-                        .sort(null)
-                        .startAngle(0)
-                        .endAngle(end);
-
-                    svg.selectAll(".arc").remove();
-
-                    svg.selectAll(".arc")
-                        .data(pie(scope.numberOfSections))
+                    svg.selectAll(".arc").data(pie(scope.numberOfSections))
                         .enter()
                         .append('g')
-                        .attr('class', 'arc')
+                        .attr('class', function (d, i) {
+                            return 'arc-g-' + i;
+                        })
+                        .attr('opacity', 1)
                         .append('path')
                         .attr('class', function (d, i) {
                             return 'arc-' + i;
@@ -138,7 +138,7 @@ myApp.directive('gaugeChart', ['$parse', '$window', '$filter', '$timeout', funct
                         .attr('fill', '#1b2428')
                         .attr('opacity', 0)
                         .attr("d", arc)
-                        .attr('stroke', '#fff')
+                        .attr('stroke', '#000')
                         .attr('stroke-width', scope.cfg.stroke)
                         .attr('width', 50)
                         .attr("height", 0)
@@ -172,9 +172,32 @@ myApp.directive('gaugeChart', ['$parse', '$window', '$filter', '$timeout', funct
                         });
                 };
 
+                scope.update = function () {
+                    scope.itemsToRemove = _.range(0, scope.numberOfSections.length).reverse();
+                    angular.forEach(scope.itemsToRemove, function (d, itter) {
+                        svg.select('.arc-g-' + d)
+                            .transition()
+                            .delay(function () {
+                                return itter * 5;
+                            })
+                            .attr('opacity', 0).remove();
+                    });
+
+                    $timeout(function () {
+                        draw();
+                    }, 1000);
+                };
+
+                var firstRun = true;
                 scope.$watch('value', function () {
-                    drawChart();
-                });
+                    if (firstRun) {
+                        drawChart();
+                        firstRun = false;
+                        return;
+                    }
+                    scope.update();
+
+                }, true);
             });
         }
     };

@@ -98,7 +98,7 @@ text {
     margin-top: 40px;
 }
 
-is-gauge-chart {
+gauge-chart {
     display: block;
     height: 100%;
     width: 100%;

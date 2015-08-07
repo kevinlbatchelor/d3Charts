@@ -1,6 +1,6 @@
 var myApp = angular.module("myApp", ['ngAnimate', 'ui.bootstrap']);
 
-myApp.controller("ctrl", function($scope) {
+myApp.controller("ctrl", function($scope, $timeout) {
     $scope.scopeValue = 'Initial scope value from ctrl';
     $scope.change=true;
 
@@ -38,6 +38,14 @@ myApp.controller("ctrl", function($scope) {
     $scope.chart2 = {};
     $scope.chart2.value = .70;
     $scope.chart2.total = 1;
+
+    $scope.test = function() {
+        $timeout(function () {
+            $scope.chart2.value = Math.random(0, 1);
+            $scope.test();
+        }, 2000)
+    }
+    $scope.test();
 
     $scope.chart2.config = {
         filter: 'number',
