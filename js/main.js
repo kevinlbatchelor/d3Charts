@@ -1,30 +1,53 @@
 var myApp = angular.module("myApp", ['ngAnimate', 'ui.bootstrap']);
 
-myApp.controller("ctrl", function($scope, $timeout) {
-    $scope.scopeValue = 'Initial scope value from ctrl';
-    $scope.change=true;
+myApp.controller("ctrl", function ($scope, $timeout, $interval) {
 
-    $scope.n = function(){
+    $interval(function(){$scope.earthValue = [
+        {1:31.95376472,0:  -89.23450472},
+        {1: 30.68586111, 0: -95.01792778},
+        {1:  38.94574889, 0:-104.5698933}
+    ];}, 1000);
+
+
+    $scope.isCollapsed = true;
+
+    $scope.eyeData = [99, 20, 33, 44];
+    $scope.eyeText =_.random(2,100);
+
+    $scope.updateEye = function () {
+        $timeout(function () {
+            $scope.eyeData = [_.random(2,100), _.random(2,100), _.random(2,100), _.random(2,100)];
+            $scope.updateEye();
+            $scope.eyeText =_.random(2,100);
+        }, _.random(100, 1500));
+    };
+    $scope.updateEye();
+
+
+    $scope.scopeValue = 'Initial scope value from ctrl';
+    $scope.change = true;
+
+    $scope.n = function () {
         return Math.floor((Math.random() * 99) + 1);
     };
 
     $scope.people = [
-        {"name": "jum", "Emails": $scope.n(), "Social Networks":100, "Internet Banking":$scope.n(),"News Sportsites":100, "Search Engine":$scope.n(), "View Shopping sites": $scope.n()},
-        {"name": "jum", "Emails": $scope.n(), "Social Networks":$scope.n(), "Internet Banking":$scope.n(),"News Sportsites":$scope.n(), "Search Engine":$scope.n(), "View Shopping sites": $scope.n()}
+        {"name": "jum", "Emails": $scope.n(), "Social Networks": 100, "Internet Banking": $scope.n(), "News Sportsites": 100, "Search Engine": $scope.n(), "View Shopping sites": $scope.n()},
+        {"name": "jum", "Emails": $scope.n(), "Social Networks": $scope.n(), "Internet Banking": $scope.n(), "News Sportsites": $scope.n(), "Search Engine": $scope.n(), "View Shopping sites": $scope.n()}
     ];
 
-    $scope.add = function(){
-        $scope.people.push({"name": "jum", "Emails": $scope.n(), "Social Networks":$scope.n(), "Internet Banking":$scope.n(),"News Sportsites":$scope.n(), "Search Engine":$scope.n(), "View Shopping sites": $scope.n()});
+    $scope.add = function () {
+        $scope.people.push({"name": "jum", "Emails": $scope.n(), "Social Networks": $scope.n(), "Internet Banking": $scope.n(), "News Sportsites": $scope.n(), "Search Engine": $scope.n(), "View Shopping sites": $scope.n()});
 
     };
 
     $scope.keys = [
-        {label:"News Sportsites", key:"News Sportsites", total:"100"},
-        {label:"Search Engine", key:"Search Engine", total:"100"},
-        {label:"Hammer", key:"Emails", total:"100"},
-        {label:"View Shopping sites", key:"View Shopping sites", total:"100"},
-        {label:"Internet Banking", key:"Internet Banking", total:"100"},
-        {label:"Social Networks", key:"Social Networks", total:"100"}
+        {label: "News Sportsites", key: "News Sportsites", total: "100"},
+        {label: "Search Engine", key: "Search Engine", total: "100"},
+        {label: "Hammer", key: "Emails", total: "100"},
+        {label: "View Shopping sites", key: "View Shopping sites", total: "100"},
+        {label: "Internet Banking", key: "Internet Banking", total: "100"},
+        {label: "Social Networks", key: "Social Networks", total: "100"}
     ];
 
     $scope.config = {
@@ -32,14 +55,14 @@ myApp.controller("ctrl", function($scope, $timeout) {
         h: 500,
         levels: 4,
         ExtraWidthX: 300,
-        showScale:true
+        showScale: true
     };
 
     $scope.chart2 = {};
     $scope.chart2.value = .70;
     $scope.chart2.total = 1;
 
-    $scope.test = function() {
+    $scope.test = function () {
         $timeout(function () {
             $scope.chart2.value = Math.random(0, 1);
             $scope.test();
@@ -110,7 +133,7 @@ myApp.controller("ctrl", function($scope, $timeout) {
     $scope.isPopover = 'this is the text';
 
     $scope.item = {};
-    $scope.config={name:'countries'};
+    $scope.config = {name: 'countries'};
 
 //    drop down directive
 
@@ -155,34 +178,33 @@ myApp.controller("ctrl", function($scope, $timeout) {
         }
     ];
 
-    $scope.isCollapsed = true;
 });
 
-myApp.directive('oneT', function() {
+myApp.directive('oneT', function () {
     return {
         restrict: 'E',
         scope: {
-            item:'='
+            item: '='
         },
         template: "<two-t tree='item'></two-t>",
 
-        link: function (scope, element, attrs){
+        link: function (scope, element, attrs) {
             console.log(scope.item)
-            }
+        }
 
     };
 });
-myApp.directive('twoT', function() {
+myApp.directive('twoT', function () {
     return {
         restrict: 'E',
         scope: {
-            tree:'='
+            tree: '='
         },
         template: "<div>Content from second directives template</div>{{tree}}",
 
-        link: function (scope, element, attrs, oneCtrl){
+        link: function (scope, element, attrs, oneCtrl) {
             console.log(scope.tree)
-            }
+        }
 
     };
 });
