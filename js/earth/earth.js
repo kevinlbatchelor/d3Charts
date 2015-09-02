@@ -110,13 +110,22 @@ myApp.directive('earth', ['$parse', '$window', '$filter', '$timeout', '$q', func
                     updateText(scope.text)
                 };
 
-                var update = function (data) {
-                    console.log('fire');
+                var update = function () {
                     var cords = scope.value;
-                    svg.append("path")
+
+                    svg.append("circle")
                         .datum({type: "MultiPoint", coordinates: cords})
-                        .attr("class", "contactPoints ping")
-                        .attr("d", path);
+                        .attr("class", "arc ping")
+                        .attr("cx", function(d){
+                            var p = [d.coordinates[0][0],d.coordinates[0][1]];
+                            return projection(p)[0];
+                        })
+                        .attr("cy", function(d){
+                            var p = [d.coordinates[0][0],d.coordinates[0][1]];
+                            return projection(p)[1];
+                        })
+                        .attr("r", 30)
+                        .transition().delay(2000).remove();
                 };
 
                 var updateText = function (text) {

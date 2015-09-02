@@ -15,18 +15,21 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
 
     <script src="js/main.js"></script>
-    <script src="js/earth.js"></script>
+    <script src="js/earth/earth.js"></script>
     <script src="js/isGaugeChart.js"></script>
+    <script src="js/earth/earthCtrl.js"></script>
 
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css?v=1.0">
+    <link rel="stylesheet" href="js/earth/earth.css">
+
 </head>
 <body>
     <div ng-app="myApp">
-        <div class="container-fluid" ng-controller="ctrl">
+        <div class="container-fluid" ng-controller="earthCtrl">
             <div class="row">
                 <div class="col-lg-6">
-                    <div class="well">
+                    <div class="box">
                         <earth value="earthValue"></earth>
                     </div>
                 </div>

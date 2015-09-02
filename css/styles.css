@@ -274,34 +274,6 @@ eye{
     height: 100%;
     width: 100%;
 }
-earth{
-    display: block;
-    height: 100%;
-    width: 100%;
-}
-
-earth path.contactPoints {
-    fill: red;
-    /*stroke-linejoin: round;*/
-}
-
-earth svg{
-    position: relative;
-}
-
-earth .ping {
-    position: absolute;
-    border-radius: 55px;
-    padding: 50px;
-    transform: scale(.25);
-    -webkit-transform: scale(.25);
-    -webkit-transform-origin: center;
-    animation-iteration-count: infinite;
-    -webkit-transform-origin: center;
-    border: solid #666 3px;
-    -webkit-animation-duration: 3s;
-    -webkit-animation-name: ping;
-}
 
 @-webkit-keyframes ping {
     from {
@@ -316,5 +288,9 @@ earth .ping {
     }
 }
 
+.box {
+    height: 900px;
+    width: 1100px;
+}
 
 

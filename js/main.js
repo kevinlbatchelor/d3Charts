@@ -2,13 +2,6 @@ var myApp = angular.module("myApp", ['ngAnimate', 'ui.bootstrap']);
 
 myApp.controller("ctrl", function ($scope, $timeout, $interval) {
 
-    $interval(function(){$scope.earthValue = [
-        {1:31.95376472,0:  -89.23450472},
-        {1: 30.68586111, 0: -95.01792778},
-        {1:  38.94574889, 0:-104.5698933}
-    ];}, 1000);
-
-
     $scope.isCollapsed = true;
 
     $scope.eyeData = [99, 20, 33, 44];
