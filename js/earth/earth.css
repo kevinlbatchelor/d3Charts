@@ -1,7 +1,7 @@
 earth{
     display: block;
-    height: 100%;
-    width: 100%;
+    height: 50%;
+    width: 50%;
 }
 
 earth .arc {
@@ -16,6 +16,35 @@ earth svg{
 }
 
 earth .ping {
+    position: absolute;
+    border-radius: 55px;
+    transform: scale(.9);
+    -webkit-transform: scale(.25);
+    -webkit-transform-origin: center;
+    animation-iteration-count: infinite;
+    -webkit-transform-origin: center;
+    border: solid #666 3px;
+    -webkit-animation-duration: 3s;
+    -webkit-animation-name: ping;
+}
+earth-two{
+    display: block;
+    height: 50%;
+    width: 50%;
+}
+
+earth-two .arc {
+    fill: none;
+    stroke: red;
+    stroke-width: 3px;
+    stroke-linecap: round;
+}
+
+earth-two svg{
+    position: relative;
+}
+
+earth-two .ping {
     position: absolute;
     border-radius: 55px;
     transform: scale(.9);
