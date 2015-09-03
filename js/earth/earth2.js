@@ -11,7 +11,7 @@ myApp.directive('earthTwo', ['$parse', '$window', '$filter', '$timeout', '$q', f
         link: function (scope, elem) {
             /*timeout is added to allow the css sizes to load before the javascript gets the elements sizes*/
             $timeout(function () {
-                var svg, projection, path,sky,skyProjection, graticule, flyingArc ;
+                var svg, projection, path, sky, skyProjection, graticule, flyingArc;
 
                 var config = {
                     colors: ['#666', '#fff'],
@@ -61,8 +61,12 @@ myApp.directive('earthTwo', ['$parse', '$window', '$filter', '$timeout', '$q', f
                 };
 
                 var swoosh = d3.svg.line()
-                    .x(function(d) { return d[0] })
-                    .y(function(d) { return d[1] })
+                    .x(function (d) {
+                        return d[0]
+                    })
+                    .y(function (d) {
+                        return d[1]
+                    })
                     .interpolate("cardinal")
                     .tension(.0);
 
@@ -74,7 +78,7 @@ myApp.directive('earthTwo', ['$parse', '$window', '$filter', '$timeout', '$q', f
 
                     skyProjection = d3.geo.mercator()
                         .scale((width + 1) / 1.5 / Math.PI)
-                        .translate([width / 2, height /2])
+                        .translate([width / 2, height / 2])
                         .precision(.1);
 
                     path = d3.geo.path()
@@ -83,12 +87,12 @@ myApp.directive('earthTwo', ['$parse', '$window', '$filter', '$timeout', '$q', f
                     sky = d3.geo.path()
                         .projection(skyProjection);
 
-                    var locationAlongArc= function(start, end, mod) {
-                        var interpolator = d3.geo.interpolate(start,end);
+                    var locationAlongArc = function (start, end, mod) {
+                        var interpolator = d3.geo.interpolate(start, end);
                         return interpolator(mod)
                     };
 
-                    flyingArc=function (pts) {
+                    flyingArc = function (pts) {
                         var source = pts.coordinates[0],
                             target = pts.coordinates[1];
                         var mid = locationAlongArc(source, target, .4);
@@ -115,7 +119,9 @@ myApp.directive('earthTwo', ['$parse', '$window', '$filter', '$timeout', '$q', f
                 var tweenDash = function tweenDash() {
                     var len = this.getTotalLength(),
                         interpolate = d3.interpolateString("0," + len, len + "," + len);
-                    return function(t) { return interpolate(t); };
+                    return function (t) {
+                        return interpolate(t);
+                    };
                 };
 
                 var draw = function () {
@@ -144,7 +150,7 @@ myApp.directive('earthTwo', ['$parse', '$window', '$filter', '$timeout', '$q', f
 //                            .attr("d", path);
 //                    }
 
-                    d3.json("js/earthData.json", function(error, world) {
+                    d3.json("js/earthData.json", function (error, world) {
 
                         svg.insert("path", ".graticule")
                             .datum(topojson.feature(world, world.objects.land))
@@ -174,27 +180,32 @@ myApp.directive('earthTwo', ['$parse', '$window', '$filter', '$timeout', '$q', f
                         .data(cords)
                         .attr("class", "theLine")
                         .style({fill: 'none'})
-                        .attr("d", function(d) { return swoosh(flyingArc(d)) })
+                        .attr("d", function (d) {
+                            return swoosh(flyingArc(d))
+                        })
                         .style({
                             stroke: '#666',
                             'stroke-width': '1px'
                         })
                         .call(lineTransition)
-                    .transition().delay(5000).remove();
+                        .transition().delay(5000).remove();
 
-                    $timeout(function(){svg.append("circle")
-                        .data(cords)
-                        .attr("class", "arc ping")
-                        .attr("cx", function(d){
-                            var p = [d.coordinates[1][0],d.coordinates[0][1]];
-                            return projection(p)[0]-2;
-                        })
-                        .attr("cy", function(d){
-                            var p = [d.coordinates[1][0],d.coordinates[0][1]];
-                            return projection(p)[1]-4;
-                        })
-                        .attr("r", 10)
-                        .transition().delay(2000).remove();},5000)
+                    $timeout(function () {
+                        svg.append("circle")
+                            .data(cords)
+                            .attr("class", "circle ping")
+                            .attr("cx", function (d) {
+                                console.log(d.coordinates);
+                                var p = [d.coordinates[1][0], d.coordinates[1][1]];
+                                return projection(p)[0] - 2;
+                            })
+                            .attr("cy", function (d) {
+                                var p = [d.coordinates[1][0], d.coordinates[1][1]];
+                                return projection(p)[1] - 4;
+                            })
+                            .attr("r", 10)
+                            .transition().delay(2000).remove();
+                    }, 5000)
                 };
 
                 var updateText = function (text) {
