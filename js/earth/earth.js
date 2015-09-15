@@ -221,3 +221,4 @@ myApp.directive('earth', ['$parse', '$window', '$filter', '$timeout', '$q', func
 
 //http://bl.ocks.org/dwtkns/4973620
 //http://bl.ocks.org/phil-pedruco/7745589
+//http://bost.ocks.org/mike/map/
