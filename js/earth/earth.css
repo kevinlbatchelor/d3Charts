@@ -1,58 +1,100 @@
-earth{
+earth {
     display: block;
-    height: 50%;
-    width: 50%;
+    height: 100%;
+    width: 100%;
+}
+earth-two {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+earth-two {
+    fill: #222;
 }
 
-earth .arc {
+earth-two .theLine{
+    stroke: #FF10ED;
+    stroke-width : 1 px;
+}
+earth-two graticule {
     fill: none;
-    stroke: red;
-    stroke-width: 3px;
+    stroke: #777;
+    stroke-opacity: .5;
+    stroke-width: .5px;
+}
+
+
+earth .circle {
+    fill: #666;
+    stroke: #ff10ed;
+    stroke-width: 2px;
     stroke-linecap: round;
 }
 
-earth svg{
+earth-two .circle {
+    fill: #666;
+    stroke: red;
+    stroke-width: 2px;
+    stroke-linecap: round;
+}
+
+earth .arc {
+    stroke: #FF10ED;
+    stroke-width : 1 px;
+}
+
+earth svg {
     position: relative;
 }
 
 earth .ping {
-    position: absolute;
     border-radius: 55px;
     transform: scale(.9);
     -webkit-transform: scale(.25);
     -webkit-transform-origin: center;
-    animation-iteration-count: infinite;
     -webkit-transform-origin: center;
-    border: solid #666 3px;
     -webkit-animation-duration: 3s;
     -webkit-animation-name: ping;
 }
-earth-two{
-    display: block;
-    height: 50%;
-    width: 50%;
-}
-
-earth-two .arc {
-    fill: none;
-    stroke: red;
-    stroke-width: 3px;
-    stroke-linecap: round;
-}
-
-earth-two svg{
-    position: relative;
-}
-
 earth-two .ping {
-    position: absolute;
     border-radius: 55px;
     transform: scale(.9);
     -webkit-transform: scale(.25);
     -webkit-transform-origin: center;
-    animation-iteration-count: infinite;
     -webkit-transform-origin: center;
-    border: solid #666 3px;
     -webkit-animation-duration: 3s;
     -webkit-animation-name: ping;
+}
+
+earth .boundary {
+    stroke: #efefef;
+    stroke-width : .5 px;
+    fill: #222;
+}
+
+earth .land {
+    fill: #222;
+}
+
+earth .graticule {
+    fill: none;
+    stroke: #777;
+    stroke-opacity: .5;
+    stroke-width: .5px;
+}
+
+earth .outline {
+    fill: none;
+    stroke: #000;
+    stroke-width: .5px;
+
+}
+
+.box {
+    width: 1800px;
+    height: 900px;
+}
+
+svg {
+    border: solid red 1px;
 }

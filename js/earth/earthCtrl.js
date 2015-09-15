@@ -1,28 +1,26 @@
 myApp.controller("earthCtrl", function ($scope, $timeout, $interval) {
 
-    $interval(function () {
-        $scope.earthValue = [
-            {1: _.random(30, 50), 0: _.random(-80, -106)}
-        ];
-    }, 1000);
+    var makeRandomMapPoints = function () {
+        var mapPoints = [];
+        for (var i = 0; i < _.random(3, 10); i++) {
+            var anyState = _.random(0, 52);
+            mapPoints.push(
+                {
+                    type: "LineString",
+                    coordinates: [
+                        [ -101.8453,35.1992],
+                        [
+                        states[anyState].LONGITUDE,
+                        states[anyState].LATITUDE
+                            ]
+                    ]
+                }
+            );
+        }
 
-    var m = function (){
-        return  _.random(38.58, 38.2);
+        return mapPoints;
     };
-    var m2= function (){
-        return  _.random(-101, -121.49);
-    };
 
-    $interval(function () {
-        $scope.earthValue2 =  [
-            {
-                type: "LineString",
-                coordinates: [
-                    [ -121.49, 38.58 ],
-                    [ -74.005941 , 40.712784 ]
-
-                ]
-            }
-        ];
-    }, 1000);
+    $interval(function(){$scope.earthValue = makeRandomMapPoints()},1000);
+    console.log($scope.earthValue);
 });

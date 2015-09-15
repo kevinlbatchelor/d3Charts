@@ -11,14 +11,14 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/topojson/topojson.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/queue-async/1.0.7/queue.min.js"></script>
+    <script src="bower_components/d3-geo-projection/d3.geo.projection.js"></script>
 
     <script src="js/main.js"></script>
     <script src="js/earth/earth.js"></script>
-    <script src="js/earth/earth2.js"></script>
+    <script src="js/earth/earthTwo.js"></script>
     <script src="js/isGaugeChart.js"></script>
     <script src="js/earth/earthCtrl.js"></script>
+    <script src="js/earth/stateCapitols.js"></script>
 
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/styles.css?v=1.0">
@@ -28,10 +28,12 @@
     <div ng-app="myApp">
         <div class="container-fluid" ng-controller="earthCtrl">
             <div class="row">
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                     <div class="box">
                         <earth value="earthValue"></earth>
-                        <earth-two value="earthValue2"></earth-two>
+                    </div>
+                    <div class="box">
+                        <earth-two value="earthValue"></earth-two>
                     </div>
                 </div>
             </div>

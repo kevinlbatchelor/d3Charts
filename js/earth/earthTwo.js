@@ -131,37 +131,11 @@ myApp.directive('earthTwo', ['$parse', '$window', '$filter', '$timeout', '$q', f
                         .attr("class", "graticule")
                         .attr("d", path);
 
-//                    queue()
-//                        .defer(d3.json, "js/earthData.json")
-//                        .await(ready);
-//
-//                    function ready(error, world, airports) {
-//
-//                        svg.insert("path", ".graticule")
-//                            .datum(topojson.feature(world, world.objects.land))
-//                            .attr("class", "land")
-//                            .attr("d", path);
-//
-//                        svg.insert("path", ".graticule")
-//                            .datum(topojson.mesh(world, world.objects.countries, function (a, b) {
-//                                return a !== b;
-//                            }))
-//                            .attr("class", "boundary")
-//                            .attr("d", path);
-//                    }
-
                     d3.json("js/earthData.json", function (error, world) {
 
                         svg.insert("path", ".graticule")
-                            .datum(topojson.feature(world, world.objects.land))
+                            .datum(topojson.feature(world, world.objects.countries))
                             .attr("class", "land")
-                            .attr("d", path);
-
-                        svg.insert("path", ".graticule")
-                            .datum(topojson.mesh(world, world.objects.countries, function (a, b) {
-                                return a !== b;
-                            }))
-                            .attr("class", "boundary")
                             .attr("d", path);
                     });
 
@@ -175,37 +149,42 @@ myApp.directive('earthTwo', ['$parse', '$window', '$filter', '$timeout', '$q', f
 
                 var update = function () {
                     var cords = scope.value;
+                    angular.forEach(cords, function (v, i) {
+                        svg.append("path")
+                            .data([cords[i]])
+                            .attr("class", "theLine")
+                            .style({fill: 'none'})
+                            .attr("d", function (d) {
+                                return swoosh(flyingArc(d))
+                            })
+                            .style({
+                                stroke: '#F15A24',
+                                'stroke-width': '1px'
+                            })
+                            .call(lineTransition)
+                            .transition().delay(5000).remove();
+                    });
 
-                    svg.append("path")
-                        .data(cords)
-                        .attr("class", "theLine")
-                        .style({fill: 'none'})
-                        .attr("d", function (d) {
-                            return swoosh(flyingArc(d))
-                        })
-                        .style({
-                            stroke: '#666',
-                            'stroke-width': '1px'
-                        })
-                        .call(lineTransition)
-                        .transition().delay(5000).remove();
 
                     $timeout(function () {
-                        svg.append("circle")
-                            .data(cords)
-                            .attr("class", "circle ping")
-                            .attr("cx", function (d) {
-                                console.log(d.coordinates);
-                                var p = [d.coordinates[1][0], d.coordinates[1][1]];
-                                return projection(p)[0] - 2;
-                            })
-                            .attr("cy", function (d) {
-                                var p = [d.coordinates[1][0], d.coordinates[1][1]];
-                                return projection(p)[1] - 4;
-                            })
-                            .attr("r", 10)
-                            .transition().delay(2000).remove();
-                    }, 5000)
+                            angular.forEach(cords, function (v, i) {
+                                svg.append("circle")
+                                    .data([cords[i]])
+                                    .attr("class", "circle ping")
+                                    .attr("cx", function (d) {
+                                        var p = [d.coordinates[1][0], d.coordinates[1][1]];
+                                        return projection(p)[0];
+                                    })
+                                    .attr("cy", function (d) {
+                                        var p = [d.coordinates[1][0], d.coordinates[1][1]];
+                                        return projection(p)[1];
+                                    })
+                                    .attr("r", 10)
+                                    .transition().delay(2000).remove();
+
+                            });
+                        }
+                        , 5000)
                 };
 
                 var updateText = function (text) {
@@ -224,5 +203,3 @@ myApp.directive('earthTwo', ['$parse', '$window', '$filter', '$timeout', '$q', f
         }
     };
 }]);
-//http://bl.ocks.org/dwtkns/4973620
-//http://bl.ocks.org/phil-pedruco/7745589
