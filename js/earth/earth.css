@@ -3,26 +3,6 @@ earth {
     height: 100%;
     width: 100%;
 }
-earth-two {
-    display: block;
-    height: 100%;
-    width: 100%;
-}
-earth-two {
-    fill: #222;
-}
-
-earth-two .theLine{
-    stroke: #FF10ED;
-    stroke-width : 1 px;
-}
-earth-two graticule {
-    fill: none;
-    stroke: #777;
-    stroke-opacity: .5;
-    stroke-width: .5px;
-}
-
 
 earth .circle {
     fill: #666;
@@ -31,32 +11,11 @@ earth .circle {
     stroke-linecap: round;
 }
 
-earth-two .circle {
-    fill: #666;
-    stroke: red;
-    stroke-width: 2px;
-    stroke-linecap: round;
-}
-
-/*earth .arc {*/
-    /*stroke: #FF10ED;*/
-    /*stroke-width : 1 px;*/
-/*}*/
-
 earth svg {
     position: relative;
 }
 
 earth .ping {
-    border-radius: 55px;
-    transform: scale(.9);
-    -webkit-transform: scale(.25);
-    -webkit-transform-origin: center;
-    -webkit-transform-origin: center;
-    -webkit-animation-duration: 3s;
-    -webkit-animation-name: ping;
-}
-earth-two .ping {
     border-radius: 55px;
     transform: scale(.9);
     -webkit-transform: scale(.25);
@@ -93,8 +52,4 @@ earth .outline {
 .box {
     width: 1800px;
     height: 900px;
-}
-
-svg {
-    border: solid red 1px;
 }

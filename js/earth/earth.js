@@ -16,7 +16,7 @@ myApp.directive('earth', ['$parse', '$window', '$filter', '$timeout', '$q', func
                 var config = {
                     colors: ['#cdb879', '#9faf8e', '#8d5a2e', '#6d7265', '#8bc5e2' ],
                     sections: 20,
-                    pathToEarth: 'js/world-50m.json',
+                    pathToEarth: 'js/earth/world-50m.json',
                     projection: d3.geo.eckert3
                 };
 
