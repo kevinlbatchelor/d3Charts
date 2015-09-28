@@ -26,7 +26,7 @@ earth-two graticule {
 
 earth .circle {
     fill: #666;
-    stroke: #ff10ed;
+    /*stroke: #ff10ed;*/
     stroke-width: 2px;
     stroke-linecap: round;
 }
@@ -38,10 +38,10 @@ earth-two .circle {
     stroke-linecap: round;
 }
 
-earth .arc {
-    stroke: #FF10ED;
-    stroke-width : 1 px;
-}
+/*earth .arc {*/
+    /*stroke: #FF10ED;*/
+    /*stroke-width : 1 px;*/
+/*}*/
 
 earth svg {
     position: relative;

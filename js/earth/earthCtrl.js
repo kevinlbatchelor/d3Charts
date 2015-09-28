@@ -8,11 +8,11 @@ myApp.controller("earthCtrl", function ($scope, $timeout, $interval) {
                 {
                     type: "LineString",
                     coordinates: [
-                        [ -101.8453,35.1992],
+                        [ -101.8453, 35.1992],
                         [
-                        states[anyState].LONGITUDE,
-                        states[anyState].LATITUDE
-                            ]
+                            states[anyState].LONGITUDE,
+                            states[anyState].LATITUDE
+                        ]
                     ]
                 }
             );

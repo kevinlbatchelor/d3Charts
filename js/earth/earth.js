@@ -11,20 +11,21 @@ myApp.directive('earth', ['$parse', '$window', '$filter', '$timeout', '$q', func
         link: function (scope, elem) {
             /*timeout is added to allow the css sizes to load before the javascript gets the elements sizes*/
             $timeout(function () {
-                var svg, projection, path, sky, skyProjection, graticule, flyingArc;
+                var svg, projection, path, sky, skyProjection, graticule, flyingArc, colorScale;
 
                 var config = {
-                    colors: ['#666', '#fff'],
-                    sections: 2,
-                    pathToEarth: 'js/world-50m.json'
+                    colors: ['#cdb879', '#9faf8e', '#8d5a2e', '#6d7265', '#8bc5e2' ],
+                    sections: 20,
+                    pathToEarth: 'js/world-50m.json',
+                    projection: d3.geo.eckert3
                 };
 
                 angular.extend(config, scope.config);
 
                 var width = elem[0].offsetWidth;
                 var height = elem[0].offsetHeight;
-                var color = d3.scale.linear().domain([0, config.sections])
-                    .range(config.colors);
+
+                var projectionFunction = config.projection;
 
                 scope.resizeCharts = function () {
                     if (width !== elem[0].clientWidth || height !== elem[0].clientHeight) {
@@ -72,12 +73,12 @@ myApp.directive('earth', ['$parse', '$window', '$filter', '$timeout', '$q', func
                     .tension(.0);
 
                 var baseSvg = function () {
-                    projection = d3.geo.eckert3()
+                    projection = projectionFunction()
                         .scale((width + 1) / 2 / Math.PI)
                         .translate([width / 2, height / 2])
                         .precision(1);
 
-                    skyProjection = d3.geo.eckert3()
+                    skyProjection = projectionFunction()
                         .scale((width + 1) / 1.5 / Math.PI)
                         .translate([width / 2, height / 2])
                         .precision(.1);
@@ -116,8 +117,7 @@ myApp.directive('earth', ['$parse', '$window', '$filter', '$timeout', '$q', func
                     svg.append("use")
                         .attr("class", "outline")
                         .attr("xlink:href", "#sphere");
-                    };
-
+                };
 
                 var lineTransition = function lineTransition(path) {
                     path.transition()
@@ -128,15 +128,15 @@ myApp.directive('earth', ['$parse', '$window', '$filter', '$timeout', '$q', func
                 };
 
                 var tweenDash = function tweenDash() {
-                    var len = this.getTotalLength(),
-                        interpolate = d3.interpolateString("0," + len, len + "," + len);
+                    var len = this.getTotalLength();
+                    var interpolate = d3.interpolateString("0," + len, len + "," + len);
+
                     return function (t) {
                         return interpolate(t);
                     };
                 };
 
                 var draw = function () {
-
                     svg.append("path")
                         .datum(graticule)
                         .attr("class", "graticule")
@@ -157,6 +157,12 @@ myApp.directive('earth', ['$parse', '$window', '$filter', '$timeout', '$q', func
                     });
 
                     d3.select(self.frameElement).style("height", height + "px");
+
+                    scope.fade = d3.scale.quantile();
+                    if (config.colors.length === 2) {
+                        scope.fade = d3.scale.linear();
+                    }
+
                 };
 
                 var runUpdate = function () {
@@ -164,28 +170,37 @@ myApp.directive('earth', ['$parse', '$window', '$filter', '$timeout', '$q', func
                     updateText(scope.text)
                 };
 
+
                 var update = function () {
-                    console.log(scope.value);
                     var cords = scope.value;
-                    angular.forEach(cords, function (v, i) {
-                        console.log(v);
+
+                    colorScale = scope.fade.domain([0, scope.value.length])
+                        .range(config.colors);
+
+                    angular.forEach(cords, function (v, pointIttr) {
                         svg.append("path")
-                            .data([cords[i]])
+                            .data([cords[pointIttr]])
                             .attr("class", "arc")
-                            .style({fill: 'none'})
+                            .style('stroke-opacity',1)
+                            .style('fill','none')
+                            .attr('stroke', function (d, i) {
+                                return colorScale(pointIttr);
+                            })
                             .attr("d", function (d) {
                                 return swoosh(flyingArc(d))
                             })
                             .call(lineTransition)
-                            .transition().delay(5000).remove();
+                            .transition().duration(500).style('stroke-opacity',0).delay(5000).remove();
                     });
 
-
                     $timeout(function () {
-                            angular.forEach(cords, function (v, i) {
+                            angular.forEach(cords, function (v, pointIttr) {
                                 svg.append("circle")
-                                    .data([cords[i]])
+                                    .data([cords[pointIttr]])
                                     .attr("class", "circle ping")
+                                    .attr('stroke', function (d, i) {
+                                        return colorScale(pointIttr);
+                                    })
                                     .attr("cx", function (d) {
                                         var p = [d.coordinates[1][0], d.coordinates[1][1]];
                                         return projection(p)[0];
@@ -196,7 +211,6 @@ myApp.directive('earth', ['$parse', '$window', '$filter', '$timeout', '$q', func
                                     })
                                     .attr("r", 10)
                                     .transition().delay(2000).remove();
-
                             });
                         }
                         , 5000)
