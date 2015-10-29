@@ -59,7 +59,7 @@ myApp.directive('earth', ['$parse', '$window', '$filter', '$timeout', '$q', func
                 };
 
                 var removeSvg = function () {
-                    d3.select(elem[0]).select("svg").remove();
+                    d3.select(elem[0]).select('svg').remove();
                 };
 
                 var swoosh = d3.svg.line()
@@ -69,7 +69,7 @@ myApp.directive('earth', ['$parse', '$window', '$filter', '$timeout', '$q', func
                     .y(function (d) {
                         return d[1]
                     })
-                    .interpolate("cardinal")
+                    .interpolate('cardinal')
                     .tension(.0);
 
                 var baseSvg = function () {
@@ -109,27 +109,30 @@ myApp.directive('earth', ['$parse', '$window', '$filter', '$timeout', '$q', func
                         .attr('width', width)
                         .attr('height', height);
 
-                    svg.append("defs").append("path")
-                        .datum({type: "Sphere"})
-                        .attr("id", "sphere")
-                        .attr("d", path);
+                    svg.append('defs').append('path')
+                        .datum({type: 'Sphere'})
+                        .attr('id', 'sphere')
+                        .attr('d', path);
 
-                    svg.append("use")
-                        .attr("class", "outline")
-                        .attr("xlink:href", "#sphere");
+                    svg.append('use')
+                        .attr('class', 'outline')
+                        .attr('xlink:href', '#sphere')
+                        .style('fill', 'none')
+                        .style('stroke', '#000')
+                        .style('stroke-width', '.5');
                 };
 
                 var lineTransition = function lineTransition(path) {
                     path.transition()
                         .duration(5500)
-                        .attrTween("stroke-dasharray", tweenDash)
-                        .each("end", function (d, i) {
+                        .attrTween('stroke-dasharray', tweenDash)
+                        .each('end', function (d, i) {
                         });
                 };
 
                 var tweenDash = function tweenDash() {
                     var len = this.getTotalLength();
-                    var interpolate = d3.interpolateString("0," + len, len + "," + len);
+                    var interpolate = d3.interpolateString('0,' + len, len + ',' + len);
 
                     return function (t) {
                         return interpolate(t);
@@ -137,26 +140,34 @@ myApp.directive('earth', ['$parse', '$window', '$filter', '$timeout', '$q', func
                 };
 
                 var draw = function () {
-                    svg.append("path")
+                    svg.append('path')
                         .datum(graticule)
-                        .attr("class", "graticule")
-                        .attr("d", path);
+                        .attr('class', 'graticule')
+                        .style('stroke','#777')
+                        .style('stroke-opacity', '.5')
+                        .style('stroke-width', '.5')
+                        .style('fill','none')
+                        .attr('d', path);
 
                     d3.json(config.pathToEarth, function (error, world) {
-                        svg.insert("path", ".graticule")
+                        svg.insert('path', '.graticule')
                             .datum(topojson.feature(world, world.objects.land))
-                            .attr("class", "land")
-                            .attr("d", path);
+                            .attr('class', 'land')
+                            .style('fill', '#222')
+                            .attr('d', path);
 
-                        svg.insert("path", ".graticule")
+                        svg.insert('path', '.graticule')
                             .datum(topojson.mesh(world, world.objects.countries, function (a, b) {
                                 return a !== b;
                             }))
-                            .attr("class", "boundary")
-                            .attr("d", path);
+                            .attr('class', 'boundary')
+                            .style('stroke', '#efefef')
+                            .style('stroke-width', '.2')
+                            .style('fill', '#222')
+                            .attr('d', path);
                     });
 
-                    d3.select(self.frameElement).style("height", height + "px");
+                    d3.select(self.frameElement).style('height', height + 'px');
 
                     scope.fade = d3.scale.quantile();
                     if (config.colors.length === 2) {
@@ -178,15 +189,15 @@ myApp.directive('earth', ['$parse', '$window', '$filter', '$timeout', '$q', func
                         .range(config.colors);
 
                     angular.forEach(cords, function (v, pointIttr) {
-                        svg.append("path")
+                        svg.append('path')
                             .data([cords[pointIttr]])
-                            .attr("class", "arc")
+                            .attr('class', 'arc')
                             .style('stroke-opacity',1)
                             .style('fill','none')
                             .attr('stroke', function (d, i) {
                                 return colorScale(pointIttr);
                             })
-                            .attr("d", function (d) {
+                            .attr('d', function (d) {
                                 return swoosh(flyingArc(d))
                             })
                             .call(lineTransition)
@@ -195,21 +206,21 @@ myApp.directive('earth', ['$parse', '$window', '$filter', '$timeout', '$q', func
 
                     $timeout(function () {
                             angular.forEach(cords, function (v, pointIttr) {
-                                svg.append("circle")
+                                svg.append('circle')
                                     .data([cords[pointIttr]])
-                                    .attr("class", "circle ping")
+                                    .attr('class', 'circle ping')
                                     .attr('stroke', function (d, i) {
                                         return colorScale(pointIttr);
                                     })
-                                    .attr("cx", function (d) {
+                                    .attr('cx', function (d) {
                                         var p = [d.coordinates[1][0], d.coordinates[1][1]];
                                         return projection(p)[0];
                                     })
-                                    .attr("cy", function (d) {
+                                    .attr('cy', function (d) {
                                         var p = [d.coordinates[1][0], d.coordinates[1][1]];
                                         return projection(p)[1];
                                     })
-                                    .attr("r", 10)
+                                    .attr('r', 10)
                                     .transition().delay(2000).remove();
                             });
                         }
