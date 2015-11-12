@@ -148,6 +148,7 @@ mainApp.controller('mainCtrl', function ($scope, $timeout) {
     data.forEach(function (node) {
         // add to parent
         var parent = dataMap[node.parent];
+        console.log(parent)
         if (parent) {
             // create child array if it doesn't exist
             (parent.children || (parent.children = []))
@@ -203,7 +204,7 @@ mainApp.controller('mainCtrl', function ($scope, $timeout) {
             }
             objToNest.$groups = objToNest.$groups.unshift();
             _.forEach(obj.$groups, function (array, it) {
-                console.log(array)
+//                console.log(array)
 
             });
 
@@ -218,12 +219,12 @@ mainApp.controller('mainCtrl', function ($scope, $timeout) {
         group.pop();
         return group;
     });
-    console.log($scope.modernWebBrowsers[0])
+//    console.log($scope.modernWebBrowsers[0])
 
-    var res = mapData($scope.modernWebBrowsers[0]);
+//    var res = mapData($scope.modernWebBrowsers[0]);
 
-    var print = JSON.stringify(res, null, "     ");
-    console.log(print);
+//    var print = JSON.stringify(res, null, "     ");
+//    console.log(print);
 });
 </script>
 

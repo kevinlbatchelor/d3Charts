@@ -8,8 +8,8 @@
     <script src="bower_components/d3/d3.min.js"></script>
     <script src="bower_components/underscore/underscore-min.js"></script>
     <script src="bower_components/angular-animate/angular-animate.js"></script>
-<script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
-<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="js/main.js"></script>
 
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -42,7 +42,8 @@
             </div>
             <div class="col-lg-3">
                 <div class="well">
-                    Using Transclude<hr>
+                    Using Transclude
+                    <hr>
                     <input type="text" ng-model="model.title">
                     <input type="text" ng-model="model.content">
                     <zippy title="{{model.title}}"> Content is{{model.content}}</zippy>
@@ -53,7 +54,8 @@
             </div>
             <div class="col-lg-3">
                 <div class="well">
-                    Video<hr>
+                    Video
+                    <hr>
                     <video-player></video-player>
                 </div>
             </div>
@@ -115,7 +117,8 @@
             </div>
             <div class="col-lg-6">
                 <div class="well">
-<drop-down data='locations' ng-model='item' config="config"></drop-down>{{item}}
+                    <drop-down data='locations' ng-model='item' config="config"></drop-down>
+                    {{item}}
                 </div>
             </div>
         </div>
@@ -126,8 +129,8 @@
 <script src="js/bubbleChart.js"></script>
 <script src="js/pieChart.js"></script>
 <script src="js/pieChartTwo.js"></script>
-<script src="js/isSpiderChart.js"></script>
-<script src="js/isGaugeChart.js"></script>
+<script src="js/spiderChart.js"></script>
+<script src="js/gaugeChart.js"></script>
 <script src="js/zippy.js"></script>
 <script src="js/videoPlayer.js"></script>
 <script src="js/popUp.js"></script>

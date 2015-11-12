@@ -6,7 +6,8 @@
 </head>
 <body ng-controller="mainCtrl as vm">
 
-<h1>Get Random User</h1>
+<h1>Get Random User JWT</h1>
+<h2><span ng-show="vm.user.username">Welcome</span> {{vm.user.username}}</h2>
 <div>
     <form ng-submit="vm.login(vm.username, vm.password)">
         <input type="text" placeholder="username" ng-model="vm.username">
