@@ -5,7 +5,7 @@
     "body-parser": "^1.13.2",
     "cors": "^2.7.1",
     "del": "^1.1.0",
-    "express": "^4.13.1",
+    "express": "^4.9.4",
     "glob": "^4.2.1",
     "gulp": "^3.8.10",
     "gulp-header": "^1.2.2",
@@ -44,5 +44,10 @@
     "build": "gulp build",
     "test": "gulp archive && mocha --reporter spec --timeout 5000"
   },
-  "version": "5.0.0"
+  "version": "5.0.0",
+  "dependencies": {
+    "express-jwt": "^0.3.2",
+    "faker": "^3.0.1",
+    "jsonwebtoken": "^1.1.2"
+  }
 }
