@@ -1,0 +1,15 @@
+sha-battlecards:
+  ports:
+  - "3000"
+  environment:
+      NODE_ENV: $NODE_ENV
+      DB_USER: $DB_USER
+      DB_PW: $DB_PW
+      DB_PORT: $DB_PORT
+      DB_HOST_ENV: $DB_HOST_ENV
+  labels:
+    io.rancher.container.pull_image: always
+    io.rancher.scheduler.affinity:host_label: shared=true
+  tty: true
+  image: $DOCKER_IMAGE_URL
+  stdin_open: true
